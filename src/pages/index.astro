@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Timeline from '../components/Timeline.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SkillGroup from '../components/SkillGroup.astro';
+
+import { site } from '../content/site';
+import { education } from '../content/education';
+import { internships } from '../content/internships';
+import { projects } from '../content/projects';
+import { skills } from '../content/skills';
+---
+
+<BaseLayout title={`${site.brand} · ${site.name}`} description={site.about}>
+  <main class="page-shell">
+    <Hero site={site} />
+
+    <section id="about" class="content-section">
+      <SectionHeading eyebrow="About" title="关于我" />
+      <p class="body-copy">{site.about}</p>
+    </section>
+
+    <section id="education" class="content-section">
+      <SectionHeading eyebrow="Education" title="教育经历" />
+      <Timeline items={education} />
+    </section>
+
+    <section id="internships" class="content-section">
+      <SectionHeading eyebrow="Internships" title="实习经历" description="每家公司保持短句和短段落，方便快速扫读。" />
+      <Timeline items={internships} />
+    </section>
+
+    <section id="projects" class="content-section">
+      <SectionHeading eyebrow="Projects" title="项目作品" description="当前先收纳已上线项目，后续项目可以直接接入同一版式。" />
+      <div class="project-grid">
+        {projects.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </section>
+
+    <section id="skills" class="content-section">
+      <SectionHeading eyebrow="Skills" title="个人技能" />
+      <div class="skills-grid">
+        {skills.map((group) => <SkillGroup group={group} />)}
+      </div>
+    </section>
+
+    <section id="contact" class="content-section">
+      <SectionHeading eyebrow="Contact" title="联系方式" />
+      <a class="contact-link" href={`mailto:${site.email}`}>{site.email}</a>
+    </section>
+  </main>
+</BaseLayout>

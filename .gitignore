@@ -1,0 +1,8 @@
+.astro/
+dist/
+node_modules/
+.tmp_resume/
+.DS_Store
+docs/.DS_Store
+docs/superpowers/.DS_Store
+简历-沈智宇.pdf

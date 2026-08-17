@@ -1,0 +1,24 @@
+---
+const { site } = Astro.props;
+---
+
+<section class="hero" id="top">
+  <div class="hero-copy">
+    <p class="eyebrow">{site.brand}</p>
+    <h1>{site.name}</h1>
+    <p class="role">{site.role}</p>
+    <p class="intro">{site.intro}</p>
+
+    <div class="hero-meta">
+      <span>{site.location}</span>
+      <span>{site.email}</span>
+    </div>
+  </div>
+
+  <div class="hero-panel">
+    <p class="panel-label">当前关注</p>
+    <ul>
+      {site.currentFocus.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+</section>

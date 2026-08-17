@@ -1,0 +1,18 @@
+{
+  "name": "sensormaru-personal-site",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "validate:content": "tsx scripts/validate-content.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "astro": "^5.13.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}

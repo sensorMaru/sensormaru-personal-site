@@ -1,0 +1,10 @@
+---
+const { group } = Astro.props;
+---
+
+<section class="skill-group">
+  <h3>{group.title}</h3>
+  <div class="skill-tags">
+    {group.items.map((item) => <span>{item}</span>)}
+  </div>
+</section>
