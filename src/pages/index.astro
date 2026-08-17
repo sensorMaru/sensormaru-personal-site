@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteNav from '../components/SiteNav.astro';
 import Hero from '../components/Hero.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import Timeline from '../components/Timeline.astro';
@@ -14,6 +15,7 @@ import { skills } from '../content/skills';
 
 <BaseLayout title={`${site.brand} · ${site.name}`} description={site.about}>
   <main class="page-shell">
+    <SiteNav />
     <Hero site={site} />
 
     <section id="about" class="content-section">

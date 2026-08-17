@@ -1,0 +1,66 @@
+---
+const navItems = [
+  { href: '#about', labelZh: '关于', labelEn: 'About' },
+  { href: '#experience', labelZh: '经历', labelEn: 'Experience' },
+  { href: '#projects', labelZh: '项目', labelEn: 'Projects' },
+  { href: '#contact', labelZh: '联系', labelEn: 'Contact' }
+] as const;
+---
+
+<header class="site-nav">
+  <div class="site-nav-shell">
+    <a class="site-nav-brand" href="#top" aria-label="返回顶部">SZY / PM</a>
+
+    <nav class="site-nav-links" aria-label="页面分区">
+      {navItems.map((item) => (
+        <a href={item.href} data-label-zh={item.labelZh} data-label-en={item.labelEn}>
+          {item.labelZh}
+        </a>
+      ))}
+    </nav>
+
+    <div class="site-nav-actions">
+      <button type="button" class="site-lang-toggle" data-lang-toggle aria-pressed="false">
+        <span data-lang-text>中 / EN</span>
+      </button>
+      <a class="site-nav-contact" href="#contact" data-label-zh="联系" data-label-en="Contact">
+        联系
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.querySelector('[data-lang-toggle]');
+  const toggleText = document.querySelector('[data-lang-text]');
+  const translatables = document.querySelectorAll('[data-label-zh]');
+  const storedLang = localStorage.getItem('site-lang');
+  let lang = storedLang === 'en' ? 'en' : 'zh';
+
+  function syncLang() {
+    root.dataset.lang = lang;
+    root.lang = lang === 'en' ? 'en' : 'zh-CN';
+
+    toggle?.setAttribute('aria-pressed', String(lang === 'en'));
+    if (toggleText) {
+      toggleText.textContent = lang === 'en' ? 'EN / 中' : '中 / EN';
+    }
+
+    translatables.forEach((node) => {
+      const nextLabel = lang === 'en' ? node.dataset.labelEn : node.dataset.labelZh;
+      if (nextLabel) {
+        node.textContent = nextLabel;
+      }
+    });
+
+    localStorage.setItem('site-lang', lang);
+  }
+
+  toggle?.addEventListener('click', () => {
+    lang = lang === 'en' ? 'zh' : 'en';
+    syncLang();
+  });
+
+  syncLang();
+</script>

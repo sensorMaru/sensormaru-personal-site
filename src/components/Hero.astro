@@ -8,12 +8,6 @@ const { site } = Astro.props;
     <h1>{site.name}</h1>
     <p class="role">{site.role}</p>
     <p class="intro">{site.intro}</p>
-
-    <div class="hero-actions" aria-label="快速跳转">
-      <a href="#experience">经历</a>
-      <a href="#projects">项目</a>
-      <a href={`mailto:${site.email}`}>联系</a>
-    </div>
   </div>
 
   <div class="hero-panel">
