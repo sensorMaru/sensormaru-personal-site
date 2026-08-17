@@ -1,31 +1,51 @@
 ---
 const { items } = Astro.props;
+
+const education = items.filter((item) => item.kind === 'education');
+const internships = items.filter((item) => item.kind === 'internship');
 ---
 
-<div class="timeline">
-  {items.map((item) => (
-    <article class:list={['timeline-item', `is-${item.kind}`]}>
-      <div class="timeline-rail" aria-hidden="true">
-        <span class="timeline-dot"></span>
-      </div>
-      <div class="timeline-body">
-        <div class="timeline-head">
-          <div>
-            <p class="timeline-kind">{item.kind === 'internship' ? '实习' : '教育'}</p>
-            <h3>{item.title}</h3>
-            <p class="timeline-org">{item.org}</p>
+<div class="experience-columns">
+  <section class="experience-track">
+    <p class="experience-track-label">教育经历</p>
+    {education.map((item) => (
+      <article class="experience-entry">
+        <div class="experience-entry-content">
+          <div class="experience-entry-top">
+            <div>
+              <p class="experience-kind">教育</p>
+              <h3>{item.title}</h3>
+              <p class="experience-org">{item.org}</p>
+            </div>
+            <span class="experience-period">{item.period}</span>
           </div>
-          <span>{item.period}</span>
+          <p class="experience-summary">{item.summary}</p>
         </div>
+      </article>
+    ))}
+  </section>
 
-        <p class="timeline-summary">{item.summary}</p>
-
-        {item.bullets ? (
-          <ul class="bullet-list">
-            {item.bullets.map((bullet) => <li>{bullet}</li>)}
-          </ul>
-        ) : null}
-      </div>
-    </article>
-  ))}
+  <section class="experience-track">
+    <p class="experience-track-label">实习经历</p>
+    {internships.map((item) => (
+      <article class="experience-entry">
+        <div class="experience-entry-content">
+          <div class="experience-entry-top">
+            <div>
+              <p class="experience-kind">实习</p>
+              <h3>{item.title}</h3>
+              <p class="experience-org">{item.org}</p>
+            </div>
+            <span class="experience-period">{item.period}</span>
+          </div>
+          <p class="experience-summary">{item.summary}</p>
+          {item.bullets ? (
+            <ul class="bullet-list">
+              {item.bullets.map((bullet) => <li>{bullet}</li>)}
+            </ul>
+          ) : null}
+        </div>
+      </article>
+    ))}
+  </section>
 </div>
