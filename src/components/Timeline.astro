@@ -10,15 +10,14 @@ const internships = items.filter((item) => item.kind === 'internship');
     <p class="experience-track-label">教育经历</p>
     {education.map((item) => (
       <article class="experience-entry">
+        <div class="experience-entry-marker" aria-hidden="true"></div>
         <div class="experience-entry-content">
-          <div class="experience-entry-top">
-            <div>
-              <p class="experience-kind">教育</p>
-              <h3>{item.title}</h3>
-              <p class="experience-org">{item.org}</p>
-            </div>
+          <p class="experience-kind">教育</p>
+          <div class="experience-entry-head">
+            <h3>{item.title}</h3>
             <span class="experience-period">{item.period}</span>
           </div>
+          <p class="experience-org">{item.org}</p>
           <p class="experience-summary">{item.summary}</p>
         </div>
       </article>
@@ -29,15 +28,14 @@ const internships = items.filter((item) => item.kind === 'internship');
     <p class="experience-track-label">实习经历</p>
     {internships.map((item) => (
       <article class="experience-entry">
+        <div class="experience-entry-marker" aria-hidden="true"></div>
         <div class="experience-entry-content">
-          <div class="experience-entry-top">
-            <div>
-              <p class="experience-kind">实习</p>
-              <h3>{item.title}</h3>
-              <p class="experience-org">{item.org}</p>
-            </div>
+          <p class="experience-kind">实习</p>
+          <div class="experience-entry-head">
+            <h3>{item.title}</h3>
             <span class="experience-period">{item.period}</span>
           </div>
+          <p class="experience-org">{item.org}</p>
           <p class="experience-summary">{item.summary}</p>
           {item.bullets ? (
             <ul class="bullet-list">
