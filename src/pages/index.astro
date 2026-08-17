@@ -7,8 +7,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import SkillGroup from '../components/SkillGroup.astro';
 
 import { site } from '../content/site';
-import { education } from '../content/education';
-import { internships } from '../content/internships';
+import { experience } from '../content/experience';
 import { projects } from '../content/projects';
 import { skills } from '../content/skills';
 ---
@@ -22,18 +21,13 @@ import { skills } from '../content/skills';
       <p class="body-copy">{site.about}</p>
     </section>
 
-    <section id="education" class="content-section">
-      <SectionHeading eyebrow="Education" title="教育经历" />
-      <Timeline items={education} />
-    </section>
-
-    <section id="internships" class="content-section">
-      <SectionHeading eyebrow="Internships" title="实习经历" description="每家公司保持短句和短段落，方便快速扫读。" />
-      <Timeline items={internships} />
+    <section id="experience" class="content-section">
+      <SectionHeading eyebrow="Experience" title="教育与实习经历" description="把学历和实习放进同一条时间线里，方便直接看路径和节奏。" />
+      <Timeline items={experience} />
     </section>
 
     <section id="projects" class="content-section">
-      <SectionHeading eyebrow="Projects" title="项目作品" description="当前先收纳已上线项目，后续项目可以直接接入同一版式。" />
+      <SectionHeading eyebrow="Projects" title="项目作品" description="首页先放已上线项目，后续项目会直接接进同一套卡片结构。" />
       <div class="project-grid">
         {projects.map((project) => <ProjectCard project={project} />)}
       </div>
@@ -50,5 +44,95 @@ import { skills } from '../content/skills';
       <SectionHeading eyebrow="Contact" title="联系方式" />
       <a class="contact-link" href={`mailto:${site.email}`}>{site.email}</a>
     </section>
+
+    <dialog class="project-dialog" data-project-dialog aria-labelledby="project-dialog-title">
+      <div class="project-dialog-shell">
+        <button type="button" class="dialog-close" data-project-close aria-label="关闭项目详情">×</button>
+        <p class="eyebrow" data-project-role>项目作品</p>
+        <h2 id="project-dialog-title" data-project-title>项目名称</h2>
+        <p class="project-dialog-period" data-project-period></p>
+        <p class="project-dialog-summary" data-project-summary></p>
+
+        <div class="project-dialog-grid">
+          <section>
+            <h3>详细介绍</h3>
+            <p class="project-dialog-text" data-project-details></p>
+          </section>
+
+          <section>
+            <h3>项目亮点</h3>
+            <ul class="bullet-list project-dialog-highlights" data-project-highlights></ul>
+          </section>
+        </div>
+
+        <div class="project-dialog-actions">
+          <a class="contact-link project-dialog-link" data-project-url href="#" target="_blank" rel="noreferrer">访问项目</a>
+        </div>
+      </div>
+    </dialog>
   </main>
+
+  <script define:vars={{ projects }}>
+    const dialog = document.querySelector('[data-project-dialog]');
+    const title = document.querySelector('[data-project-title]');
+    const role = document.querySelector('[data-project-role]');
+    const period = document.querySelector('[data-project-period]');
+    const summary = document.querySelector('[data-project-summary]');
+    const details = document.querySelector('[data-project-details]');
+    const highlights = document.querySelector('[data-project-highlights]');
+    const url = document.querySelector('[data-project-url]');
+    const closeButton = document.querySelector('[data-project-close]');
+
+    const projectMap = new Map(projects.map((project) => [project.slug, project]));
+
+    function fillProject(project) {
+      if (!dialog || !title || !role || !period || !summary || !details || !highlights || !url) {
+        return;
+      }
+
+      title.textContent = project.title;
+      role.textContent = project.role;
+      period.textContent = project.period;
+      summary.textContent = project.summary;
+      details.textContent = project.details;
+      url.href = project.url;
+
+      highlights.replaceChildren(
+        ...project.highlights.map((item) => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          return li;
+        })
+      );
+    }
+
+    document.querySelectorAll('[data-project-trigger]').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const slug = trigger.getAttribute('data-project-slug');
+        if (!slug || !(dialog instanceof HTMLDialogElement)) {
+          return;
+        }
+
+        const project = projectMap.get(slug);
+        if (!project) {
+          return;
+        }
+
+        fillProject(project);
+        dialog.showModal();
+      });
+    });
+
+    closeButton?.addEventListener('click', () => {
+      if (dialog instanceof HTMLDialogElement) {
+        dialog.close();
+      }
+    });
+
+    dialog?.addEventListener('click', (event) => {
+      if (event.target === dialog && dialog instanceof HTMLDialogElement) {
+        dialog.close();
+      }
+    });
+  </script>
 </BaseLayout>

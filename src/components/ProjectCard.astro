@@ -3,17 +3,23 @@ const { project } = Astro.props;
 ---
 
 <article class:list={['project-card', project.featured && 'featured']}>
-  <div class="project-top">
-    <div>
-      <p class="eyebrow">{project.role}</p>
-      <h3>{project.title}</h3>
+  <button type="button" class="project-card-hitarea" data-project-trigger data-project-slug={project.slug}>
+    <span class="sr-only">查看 {project.title} 项目详情</span>
+  </button>
+  <div class="project-card-inner">
+    <div class="project-top">
+      <div>
+        <p class="eyebrow">{project.role}</p>
+        <h3>{project.title}</h3>
+      </div>
+      <span>{project.period}</span>
     </div>
-    <span>{project.period}</span>
+
+    <p class="project-summary">{project.summary}</p>
+
+    <div class="project-footer">
+      <span class="project-cue">{project.highlights[0]}</span>
+      <span class="project-link">点击查看详情</span>
+    </div>
   </div>
-
-  <p class="project-summary">{project.summary}</p>
-
-  <a class="project-link" href={project.url} target="_blank" rel="noreferrer">
-    访问项目
-  </a>
 </article>

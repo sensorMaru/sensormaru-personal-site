@@ -1,4 +1,4 @@
-import { internships } from '../src/content/internships';
+import { experience } from '../src/content/experience';
 import { projects } from '../src/content/projects';
 
 function sentenceCount(text: string): number {
@@ -8,14 +8,18 @@ function sentenceCount(text: string): number {
     .filter(Boolean).length;
 }
 
-for (const company of internships) {
-  if (company.bullets.length > 4) {
-    throw new Error(`${company.company} has too many bullets`);
+for (const item of experience) {
+  if (item.kind !== 'internship') {
+    continue;
   }
 
-  for (const bullet of company.bullets) {
+  if (!item.bullets || item.bullets.length > 4) {
+    throw new Error(`${item.org} has too many bullets or missing bullets`);
+  }
+
+  for (const bullet of item.bullets) {
     if (sentenceCount(bullet) > 2) {
-      throw new Error(`${company.company} bullet is too long: ${bullet}`);
+      throw new Error(`${item.org} bullet is too long: ${bullet}`);
     }
   }
 }
