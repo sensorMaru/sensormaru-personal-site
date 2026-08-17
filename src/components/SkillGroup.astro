@@ -5,6 +5,18 @@ const { group } = Astro.props;
 <section class="skill-group">
   <h3>{group.title}</h3>
   <div class="skill-tags">
-    {group.items.map((item) => <span>{item}</span>)}
+    {group.items.map((item) => {
+      const label = typeof item === 'string' ? item : item.label;
+      const icon = typeof item === 'string' ? null : item.icon;
+      const alt = typeof item === 'string' ? label : item.alt ?? label;
+      const tone = typeof item === 'string' ? null : item.tone;
+
+      return (
+        <span class:list={['skill-tag', icon && 'skill-tag--icon']}>
+          {icon ? <img src={icon} alt={alt} class:list={['skill-tag-icon', tone && `skill-tag-icon--${tone}`]} loading="lazy" decoding="async" /> : null}
+          <span>{label}</span>
+        </span>
+      );
+    })}
   </div>
 </section>

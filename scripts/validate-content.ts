@@ -24,6 +24,14 @@ for (const item of experience) {
   }
 }
 
-if (!projects.some((project) => project.slug === 'design-award-meta-search')) {
-  throw new Error('Missing featured project: design-award-meta-search');
+const requiredProjectSlugs = [
+  'global-design-award-museum',
+  'wm-tracking-demo',
+  '360-screenshot'
+];
+
+for (const slug of requiredProjectSlugs) {
+  if (!projects.some((project) => project.slug === slug)) {
+    throw new Error(`Missing project: ${slug}`);
+  }
 }

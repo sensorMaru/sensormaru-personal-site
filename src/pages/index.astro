@@ -29,14 +29,18 @@ import { skills } from '../content/skills';
     </section>
 
     <section id="projects" class="content-section">
-      <SectionHeading eyebrow="Projects" title="项目作品" description="首页先放已上线项目，后续项目会直接接进同一套卡片结构。" />
+      <div class="projects-section-heading">
+        <p class="skills-eyebrow eyebrow">PROJECTS</p>
+        <h2 class="skills-title">项目作品</h2>
+      </div>
       <div class="project-grid">
         {projects.map((project) => <ProjectCard project={project} />)}
       </div>
     </section>
 
-    <section id="skills" class="content-section">
-      <SectionHeading eyebrow="Skills" title="个人技能" />
+    <section id="skills" class="content-section skills-section">
+      <p class="skills-eyebrow eyebrow">SKILLS</p>
+      <h2 class="skills-title">掌握技能</h2>
       <div class="skills-grid">
         {skills.map((group) => <SkillGroup group={group} />)}
       </div>
@@ -50,25 +54,30 @@ import { skills } from '../content/skills';
     <dialog class="project-dialog" data-project-dialog aria-labelledby="project-dialog-title">
       <div class="project-dialog-shell">
         <button type="button" class="dialog-close" data-project-close aria-label="关闭项目详情">×</button>
-        <p class="eyebrow" data-project-role>项目作品</p>
-        <h2 id="project-dialog-title" data-project-title>项目名称</h2>
-        <p class="project-dialog-period" data-project-period></p>
-        <p class="project-dialog-summary" data-project-summary></p>
-
-        <div class="project-dialog-grid">
-          <section>
-            <h3>详细介绍</h3>
-            <p class="project-dialog-text" data-project-details></p>
+        <div class="project-dialog-layout">
+          <section class="project-dialog-visual" aria-label="项目预览">
+            <div class="project-dialog-carousel" data-project-carousel>
+              <div class="project-dialog-slide-track" data-project-slide-track></div>
+            </div>
+            <a class="project-dialog-visit" data-project-url href="#" target="_blank" rel="noreferrer">访问项目</a>
+            <button type="button" class="project-dialog-nav project-dialog-nav--prev" data-project-prev aria-label="上一张预览">‹</button>
+            <button type="button" class="project-dialog-nav project-dialog-nav--next" data-project-next aria-label="下一张预览">›</button>
           </section>
 
-          <section>
-            <h3>项目亮点</h3>
-            <ul class="bullet-list project-dialog-highlights" data-project-highlights></ul>
-          </section>
-        </div>
-
-        <div class="project-dialog-actions">
-          <a class="contact-link project-dialog-link" data-project-url href="#" target="_blank" rel="noreferrer">访问项目</a>
+          <aside class="project-dialog-info">
+            <p class="eyebrow" data-project-role>项目作品</p>
+            <p class="project-dialog-period" data-project-period></p>
+            <h2 id="project-dialog-title" data-project-title>项目名称</h2>
+            <p class="project-dialog-summary" data-project-summary></p>
+            <div class="project-dialog-highlights-block">
+              <h3>项目背景</h3>
+              <p class="project-dialog-text" data-project-details></p>
+            </div>
+            <div class="project-dialog-highlights-block">
+              <h3>核心功能</h3>
+              <ul class="bullet-list project-dialog-highlights" data-project-highlights></ul>
+            </div>
+          </aside>
         </div>
       </div>
     </dialog>
@@ -84,11 +93,64 @@ import { skills } from '../content/skills';
     const highlights = document.querySelector('[data-project-highlights]');
     const url = document.querySelector('[data-project-url]');
     const closeButton = document.querySelector('[data-project-close]');
+    const slideTrack = document.querySelector('[data-project-slide-track]');
+    const prevButton = document.querySelector('[data-project-prev]');
+    const nextButton = document.querySelector('[data-project-next]');
 
     const projectMap = new Map(projects.map((project) => [project.slug, project]));
+    let activeSlideIndex = 0;
+    let activeSlideCount = 0;
+    let slideTimer;
+
+    function updateCarousel() {
+      if (!(slideTrack instanceof HTMLElement)) {
+        return;
+      }
+
+      slideTrack.style.transform = `translateX(-${activeSlideIndex * 100}%)`;
+      const singleSlide = activeSlideCount <= 1;
+      prevButton?.toggleAttribute('disabled', singleSlide);
+      nextButton?.toggleAttribute('disabled', singleSlide);
+    }
+
+    function stopCarousel() {
+      if (slideTimer) {
+        window.clearInterval(slideTimer);
+        slideTimer = undefined;
+      }
+    }
+
+    function stopDialogMedia() {
+      slideTrack?.querySelectorAll('video').forEach((video) => {
+        video.pause();
+        video.currentTime = 0;
+      });
+    }
+
+    function startCarousel() {
+      stopCarousel();
+      if (activeSlideCount <= 1) {
+        return;
+      }
+
+      slideTimer = window.setInterval(() => {
+        activeSlideIndex = (activeSlideIndex + 1) % activeSlideCount;
+        updateCarousel();
+      }, 5000);
+    }
+
+    function moveCarousel(direction) {
+      if (activeSlideCount <= 1) {
+        return;
+      }
+
+      activeSlideIndex = (activeSlideIndex + direction + activeSlideCount) % activeSlideCount;
+      updateCarousel();
+      startCarousel();
+    }
 
     function fillProject(project) {
-      if (!dialog || !title || !role || !period || !summary || !details || !highlights || !url) {
+      if (!dialog || !title || !role || !period || !summary || !details || !highlights || !url || !slideTrack) {
         return;
       }
 
@@ -98,6 +160,61 @@ import { skills } from '../content/skills';
       summary.textContent = project.summary;
       details.textContent = project.details;
       url.href = project.url;
+
+      activeSlideIndex = 0;
+      stopCarousel();
+      stopDialogMedia();
+
+      if (project.detailVideo) {
+        activeSlideCount = 1;
+
+        const figure = document.createElement('figure');
+        figure.className = 'project-dialog-slide project-dialog-slide--video';
+
+        const video = document.createElement('video');
+        video.controls = true;
+        video.autoplay = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.preload = 'metadata';
+        if (project.detailVideo.poster) {
+          video.poster = project.detailVideo.poster;
+        }
+
+        const source = document.createElement('source');
+        source.src = project.detailVideo.src;
+        source.type = project.detailVideo.type;
+        video.append(source);
+
+        figure.append(video);
+        slideTrack.replaceChildren(figure);
+        updateCarousel();
+
+        video.currentTime = 0;
+        video.play().catch(() => {
+          video.removeAttribute('autoplay');
+        });
+      } else {
+        const images = project.detailImages?.length ? project.detailImages : project.image ? [project.image] : [];
+        activeSlideCount = images.length;
+        slideTrack.replaceChildren(
+          ...images.map((image) => {
+            const figure = document.createElement('figure');
+            figure.className = 'project-dialog-slide';
+
+            const img = document.createElement('img');
+            img.src = image.src;
+            img.alt = image.alt;
+            img.loading = 'lazy';
+            img.decoding = 'async';
+
+            figure.append(img);
+            return figure;
+          })
+        );
+        updateCarousel();
+        startCarousel();
+      }
 
       highlights.replaceChildren(
         ...project.highlights.map((item) => {
@@ -131,10 +248,18 @@ import { skills } from '../content/skills';
       }
     });
 
+    prevButton?.addEventListener('click', () => moveCarousel(-1));
+    nextButton?.addEventListener('click', () => moveCarousel(1));
+
     dialog?.addEventListener('click', (event) => {
       if (event.target === dialog && dialog instanceof HTMLDialogElement) {
         dialog.close();
       }
+    });
+
+    dialog?.addEventListener('close', () => {
+      stopCarousel();
+      stopDialogMedia();
     });
   </script>
 </BaseLayout>

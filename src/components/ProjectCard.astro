@@ -7,19 +7,21 @@ const { project } = Astro.props;
     <span class="sr-only">查看 {project.title} 项目详情</span>
   </button>
   <div class="project-card-inner">
-    <div class="project-top">
-      <div>
-        <p class="eyebrow">{project.role}</p>
-        <h3>{project.title}</h3>
+    {project.image ? (
+      <div class="project-card-media">
+        <img src={project.image.src} alt={project.image.alt} class="project-card-image" loading="lazy" decoding="async" />
+        {project.cardBadge ? <span class="project-card-badge">{project.cardBadge}</span> : null}
       </div>
-      <span>{project.period}</span>
-    </div>
+    ) : null}
 
-    <p class="project-summary">{project.summary}</p>
+    <div class="project-card-body">
+      <div class="project-card-meta">
+        <p class="project-card-eyebrow">{project.cardEyebrow ?? project.role}</p>
+        <span class="project-card-tag">{project.cardTag ?? project.period}</span>
+      </div>
 
-    <div class="project-footer">
-      <span class="project-cue">{project.highlights[0]}</span>
-      <span class="project-link">点击查看详情</span>
+      <h3>{project.title}</h3>
+      <p class="project-summary">{project.summary}</p>
     </div>
   </div>
 </article>
