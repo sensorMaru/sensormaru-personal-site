@@ -42,7 +42,7 @@ main {
 }
 
 .page-shell {
-  width: min(1120px, calc(100vw - 32px));
+  width: min(1280px, calc(100vw - 24px));
   margin: 0 auto;
   padding: 20px 0 72px;
 }
@@ -289,7 +289,7 @@ main {
 .experience-columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
+  gap: 32px;
 }
 
 .experience-track {
@@ -318,8 +318,8 @@ main {
 .experience-entry {
   position: relative;
   display: grid;
-  grid-template-columns: 16px minmax(0, 1fr);
-  gap: 14px;
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: 12px;
   padding-bottom: 24px;
 }
 
@@ -340,14 +340,15 @@ main {
 }
 
 .experience-entry-content {
+  width: 100%;
   min-width: 0;
 }
 
 .experience-entry-top {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 16px;
-  align-items: baseline;
+  align-items: start;
 }
 
 .experience-kind {
@@ -362,6 +363,10 @@ main {
   margin: 0;
   font-size: 1.08rem;
   font-weight: 650;
+  line-height: 1.2;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  white-space: nowrap;
 }
 
 .experience-org,
@@ -373,6 +378,12 @@ main {
 .experience-org,
 .experience-period {
   color: var(--muted);
+}
+
+.experience-org {
+  line-height: 1.3;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .experience-summary {
@@ -497,6 +508,14 @@ main {
 
   .experience-track {
     padding-left: 16px;
+  }
+
+  .experience-entry-top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .experience-entry h3 {
+    white-space: normal;
   }
 }
 
