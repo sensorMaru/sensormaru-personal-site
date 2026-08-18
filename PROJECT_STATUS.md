@@ -67,7 +67,7 @@
 - Wrangler 发布地址：`https://sensormaru-personal-site.solitude1900szy.workers.dev`；`curl -I` 返回 HTTP 200。
 - 自定义域名抽查：`https://sensormaru.com` 的 `curl -I` 返回 HTTP 200。
 - 线上内容抽查：生产首页可检索到 `Zhiyu Shen`、`Agent Skills`、`Workflow`、`App Store评论采集与分析Skills` 和 `食谱数据清洗skills`。
-- Git 同步结果：功能提交 `76bb58a` 已推送到 `origin/main`。
+- Git 同步结果：本次源码、静态资源和交接文档变更已推送到 `origin/main`。
 
 ## 已知问题
 
