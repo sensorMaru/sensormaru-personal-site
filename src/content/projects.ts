@@ -24,6 +24,18 @@ export type ProjectItem = {
     type: string;
     poster?: string;
   };
+  translations?: {
+    en?: {
+      title?: string;
+      summary?: string;
+      details?: string;
+      role?: string;
+      period?: string;
+      highlights?: string[];
+      imageAlt?: string;
+      detailImageAlts?: string[];
+    };
+  };
 };
 
 export const projects: ProjectItem[] = [
@@ -62,7 +74,29 @@ export const projects: ProjectItem[] = [
       '多维筛选：支持奖项、年份、品类、地区、获奖等级等条件组合筛选。',
       '作品详情：展示作品、设计方、奖项、年份，点击跳转到官方来源。',
       '持续更新：通过数据采集持续同步各大奖最新获奖作品。'
-    ]
+    ],
+    translations: {
+      en: {
+        title: 'Global Design Award Museum',
+        summary: 'A searchable archive space for global design awards.',
+        details:
+          'Major design award sites are scattered and often lack open APIs, so designers need to browse many official sites repeatedly when looking for reference work.',
+        role: 'Project',
+        period: 'Live',
+        imageAlt: 'Global Design Award Museum page preview',
+        detailImageAlts: [
+          'Global Design Award Museum home search interface',
+          'Global Design Award Museum search results interface',
+          'Global Design Award Museum award detail interface'
+        ],
+        highlights: [
+          'Cross-award search: unified search across iF, Red Dot, IDEA, and other international design awards.',
+          'Multi-dimensional filters: combine award, year, category, region, award level, and more.',
+          'Work details: show the work, designer, award, and year, with links to the official source.',
+          'Continuous updates: keep award-winning works synchronized through ongoing data collection.'
+        ]
+      }
+    }
   },
   {
     slug: 'wm-tracking-demo',
@@ -72,7 +106,7 @@ export const projects: ProjectItem[] = [
       '帮助新入职的运营、数分、投放人员快速摸清产品核心埋点和用户路径。',
     role: '项目作品',
     period: '已上线',
-    url: '/projects/wm-tracking-demo/',
+    url: '/projects/wm-tracking-demo/index.html',
     cardBadge: 'WM',
     cardEyebrow: 'TRACKING EVENT MAP',
     cardTag: 'VISUAL',
@@ -99,7 +133,29 @@ export const projects: ProjectItem[] = [
       '生成可编辑核心流程图，支持节点拖拽、缩放、连线、删除、撤销重做和本地保存。',
       '提供演示视图，聚焦单个 UI 节点并展示上下游路径，支持点击模拟跳转。',
       '支持查看埋点详情、导出高清流程图，并同步发布到固定飞书应用地址。'
-    ]
+    ],
+    translations: {
+      en: {
+        title: 'Visual Tracking Event Map',
+        summary: 'A visual exploration and presentation tool that connects WM core tracking events, UI screenshots, and user operation paths.',
+        details:
+          'Helps new operations, analytics, and UA team members quickly understand core tracking events and user paths in the product.',
+        role: 'Project',
+        period: 'Live',
+        imageAlt: 'Visual tracking event map page preview',
+        detailImageAlts: [
+          'Visual tracking event map core flowchart view',
+          'Visual tracking event map presentation view',
+          'Visual tracking event map layered view'
+        ],
+        highlights: [
+          'Automatically parses tracking events, parameters, and UI screenshots from Excel or Feishu sheets into modular tracking data.',
+          'Generates an editable core flowchart with node dragging, zooming, connections, deletion, undo/redo, and local saving.',
+          'Provides a presentation view focused on a single UI node and its upstream and downstream paths, with click-through simulation.',
+          'Supports tracking detail review, high-resolution flowchart export, and publishing to a fixed Feishu app address.'
+        ]
+      }
+    }
   },
   {
     slug: '360-screenshot',
@@ -128,6 +184,24 @@ export const projects: ProjectItem[] = [
       '实时覆盖提示：已捕获区域显示绿色半透明覆盖层，并提供局部缩略矩阵，帮助判断当前覆盖进度和坐标位置。',
       '画布平移同步：支持触控板、鼠标拖拽、鼠标中键移动画布时同步更新红绿框位置，减少拼接错位。',
       '屏幕参数预检：启动和截图过程中检测 DPR、viewport、screen 等参数变化，避免因缩放、换屏或 Retina 显示导致最终图片错乱。'
-    ]
+    ],
+    translations: {
+      en: {
+        title: '360 Screenshot',
+        summary:
+          '360 Screenshot is a Chrome extension for repeatedly capturing custom regions across webpages, cloud documents, and infinite canvases, then stitching them into a complete PNG.',
+        details:
+          'Infinite-canvas pages such as Feishu whiteboards and cloud sheets cannot be fully captured by ordinary long-screenshot tools, while manual screenshots are easy to miss, misalign, or duplicate.',
+        role: 'Project',
+        period: 'Chrome Extension',
+        imageAlt: '360 Screenshot continuous capture coverage prompt interface',
+        highlights: [
+          'Custom tile capture: select the first screenshot region, expand coverage with arrow keys, and export the stitched result in one click.',
+          'Real-time coverage hints: captured regions appear as green translucent overlays, with a thumbnail matrix to judge progress and coordinates.',
+          'Canvas pan synchronization: keeps red and green boxes aligned while using trackpad, mouse drag, or middle-button panning.',
+          'Screen parameter preflight: checks DPR, viewport, and screen changes during capture to prevent output distortion caused by zoom, display switching, or Retina screens.'
+        ]
+      }
+    }
   }
 ] as const;

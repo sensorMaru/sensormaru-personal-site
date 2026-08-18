@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 95 1520 1035">
+  <defs>
+    <style>
+      .bg,
+      .subtitle,
+      .footer,
+      .divider,
+      .glow-blue,
+      .glow-teal,
+      .glow-rose { display: none; }
+      .subtitle { font: 400 21px -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; fill: #a6b4c8; letter-spacing: 0; }
+      .lane-title { font: 700 23px -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; fill: #eef4ff; letter-spacing: 0; }
+      .box-title { font: 700 19px -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; fill: #f8fafc; letter-spacing: 0; }
+      .box-text { font: 400 15.5px -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; fill: #d3ddea; letter-spacing: 0; }
+      .small { font: 400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; fill: #9aa8bd; letter-spacing: 0; }
+      .footer { font: 400 14.5px -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; fill: #8ea0b8; letter-spacing: 0; }
+      .lane { fill: none; stroke: rgba(148, 163, 184, 0.28); stroke-width: 1.5; stroke-dasharray: 10 12; }
+      .box { fill: rgba(5, 7, 12, 0.10); stroke-width: 2.2; rx: 12; }
+      .box-blue { stroke: #38bdf8; }
+      .box-teal { stroke: #20c997; }
+      .box-amber { stroke: #f59f00; }
+      .box-purple { stroke: #9775fa; }
+      .box-rose { stroke: #ff6b81; }
+      .box-slate { stroke: #94a3b8; }
+      .arrow { stroke: #7dd3fc; stroke-width: 2.3; fill: none; marker-end: url(#arrowhead); }
+      .arrow-soft { stroke: #64748b; stroke-width: 1.8; fill: none; marker-end: url(#arrowhead-soft); stroke-dasharray: 8 8; }
+      .divider { stroke: #1f2937; stroke-width: 1.5; }
+      .glow-blue { fill: #60a5fa; opacity: 0.11; }
+      .glow-teal { fill: #34d399; opacity: 0.10; }
+      .glow-rose { fill: #fb7185; opacity: 0.10; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#7dd3fc"/>
+    </marker>
+    <marker id="arrowhead-soft" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="1200"/>
+  <circle class="glow-blue" cx="190" cy="82" r="180"/>
+  <circle class="glow-teal" cx="1410" cy="555" r="235"/>
+  <circle class="glow-rose" cx="985" cy="1130" r="230"/>
+
+  <text class="subtitle" x="60" y="68">食谱清洗 V2 项目整体操作流程与技术路径：SOP 口径、动态参考文件、Python CSV 流水线与 final_json 交付</text>
+
+  <rect class="lane" x="50" y="105" width="1500" height="210" rx="18"/>
+  <text class="lane-title" x="76" y="149">一、输入与口径确认</text>
+
+  <rect class="box box-blue" x="85" y="185" width="300" height="92"/>
+  <text class="box-title" x="110" y="217">SOP / 清洗规范</text>
+  <text class="box-text" x="110" y="246">确认字段与验收口径</text>
+  <text class="small" x="110" y="270">只作为业务参考</text>
+
+  <rect class="box box-blue" x="430" y="185" width="300" height="92"/>
+  <text class="box-title" x="455" y="217">原始食谱数据</text>
+  <text class="box-text" x="455" y="246">th_all_recipe / data_pre</text>
+  <text class="small" x="455" y="270">菜名、份量、食材、步骤</text>
+
+  <rect class="box box-blue" x="775" y="185" width="300" height="92"/>
+  <text class="box-title" x="800" y="217">动态参考配置</text>
+  <text class="box-text" x="800" y="246">recipe_lang / uuid_prefix</text>
+  <text class="small" x="800" y="270">规则、词表、模板</text>
+
+  <rect class="box box-blue" x="1120" y="185" width="300" height="92"/>
+  <text class="box-title" x="1145" y="217">运行编排入口</text>
+  <text class="box-text" x="1145" y="246">overall_process.py</text>
+  <text class="small" x="1145" y="270">串行产出中间 CSV</text>
+
+  <path class="arrow" d="M385 231 H425"/>
+  <path class="arrow" d="M730 231 H770"/>
+  <path class="arrow" d="M1075 231 H1115"/>
+
+  <rect class="lane" x="50" y="345" width="1500" height="285" rx="18"/>
+  <text class="lane-title" x="76" y="389">二、预处理、有效性判断与营养结构化</text>
+
+  <rect class="box box-teal" x="75" y="455" width="242" height="116"/>
+  <text class="box-title" x="101" y="487">th_data_pre.py</text>
+  <text class="box-text" x="101" y="516">规范份量和时间</text>
+  <text class="box-text" x="101" y="542">补齐翻译字段</text>
+  <text class="small" x="101" y="564">失败标记 validity=0</text>
+
+  <rect class="box box-teal" x="360" y="455" width="242" height="116"/>
+  <text class="box-title" x="386" y="487">data_pre_result.csv</text>
+  <text class="box-text" x="386" y="516">形成基础字段</text>
+  <text class="box-text" x="386" y="542">validity 作为开关</text>
+  <text class="small" x="386" y="564">无效行保留</text>
+
+  <rect class="box box-amber" x="645" y="455" width="242" height="116"/>
+  <text class="box-title" x="671" y="487">nutri_process.py</text>
+  <text class="box-text" x="671" y="516">按每份估算营养</text>
+  <text class="box-text" x="671" y="542">热量、糖、脂肪、蛋白</text>
+  <text class="small" x="671" y="564">只处理有效行</text>
+
+  <rect class="box box-amber" x="930" y="455" width="242" height="116"/>
+  <text class="box-title" x="956" y="487">no_tag_process.py</text>
+  <text class="box-text" x="956" y="516">生成 uuid 和 icon</text>
+  <text class="box-text" x="956" y="542">营养明细与食材结构</text>
+  <text class="small" x="956" y="564">输出 no_tag_result</text>
+
+  <rect class="box box-slate" x="1215" y="455" width="260" height="116"/>
+  <text class="box-title" x="1241" y="487">结构化中间产物</text>
+  <text class="box-text" x="1241" y="516">nutri_result / no_tag</text>
+  <text class="box-text" x="1241" y="542">为强规则校验供数</text>
+  <text class="small" x="1241" y="564">可回溯、可抽查</text>
+
+  <path class="arrow" d="M317 513 H355"/>
+  <path class="arrow" d="M602 513 H640"/>
+  <path class="arrow" d="M887 513 H925"/>
+  <path class="arrow" d="M1172 513 H1210"/>
+
+  <rect class="box box-slate" x="420" y="586" width="760" height="32"/>
+  <text class="small" x="446" y="607">旁路规则：validity=0 的行继续写入后续 CSV，但不新增业务字段或 final_json</text>
+
+  <rect class="lane" x="50" y="660" width="1500" height="275" rx="18"/>
+  <text class="lane-title" x="76" y="704">三、标签召回、规则校验与多语言展示</text>
+
+  <rect class="box box-purple" x="75" y="765" width="265" height="116"/>
+  <text class="box-title" x="101" y="797">tag_process.py</text>
+  <text class="box-text" x="101" y="826">读取规则和词表</text>
+  <text class="box-text" x="101" y="852">LLM 候选 + 关键词</text>
+  <text class="small" x="101" y="874">生成候选标签</text>
+
+  <rect class="box box-purple" x="380" y="765" width="265" height="116"/>
+  <text class="box-title" x="406" y="797">强规则校验</text>
+  <text class="box-text" x="406" y="826">营养阈值定标签</text>
+  <text class="box-text" x="406" y="852">食材冲突做删除</text>
+  <text class="small" x="406" y="874">准确率优先</text>
+
+  <rect class="box box-purple" x="685" y="765" width="265" height="116"/>
+  <text class="box-title" x="711" y="797">审计字段</text>
+  <text class="box-text" x="711" y="826">tag_audit_data</text>
+  <text class="box-text" x="711" y="852">invalid / low_conf</text>
+  <text class="small" x="711" y="874">保留判断依据</text>
+
+  <rect class="box box-teal" x="990" y="765" width="265" height="116"/>
+  <text class="box-title" x="1016" y="797">remain_process.py</text>
+  <text class="box-text" x="1016" y="826">读取 label_map</text>
+  <text class="box-text" x="1016" y="852">描述、时长、tagList</text>
+  <text class="small" x="1016" y="874">匹配目标语言</text>
+
+  <rect class="box box-slate" x="1295" y="765" width="180" height="116"/>
+  <text class="box-title" x="1321" y="797">remain_result</text>
+  <text class="box-text" x="1321" y="826">字段齐备</text>
+  <text class="box-text" x="1321" y="852">等待组装</text>
+  <text class="small" x="1321" y="874">可人工抽查</text>
+
+  <path class="arrow" d="M340 823 H375"/>
+  <path class="arrow" d="M645 823 H680"/>
+  <path class="arrow" d="M950 823 H985"/>
+  <path class="arrow" d="M1255 823 H1290"/>
+
+  <rect class="lane" x="50" y="965" width="1500" height="155" rx="18"/>
+  <text class="lane-title" x="76" y="1007">四、final_json 组装、交付与复核</text>
+
+  <rect class="box box-rose" x="220" y="1040" width="285" height="58"/>
+  <text class="box-title" x="246" y="1074">final_json_process.py</text>
+
+  <rect class="box box-rose" x="555" y="1040" width="330" height="58"/>
+  <text class="box-title" x="581" y="1074">匹配 template_final_json.csv</text>
+
+  <rect class="box box-rose" x="935" y="1040" width="285" height="58"/>
+  <text class="box-title" x="961" y="1074">final_json_result.csv</text>
+
+  <rect class="box box-slate" x="1270" y="1040" width="230" height="58"/>
+  <text class="box-title" x="1296" y="1074">JSON 解析复核</text>
+
+  <path class="arrow" d="M505 1069 H550"/>
+  <path class="arrow" d="M885 1069 H930"/>
+  <path class="arrow" d="M1220 1069 H1265"/>
+  <path class="arrow-soft" d="M1385 881 C1385 932 363 928 363 1035"/>
+
+  <line class="divider" x1="60" y1="1142" x2="1540" y2="1142"/>
+  <text class="footer" x="76" y="1174">交付物：final_json_result.csv 与各阶段中间 CSV。技术栈：Python csv/json/re/textutil、动态 RTF/CSV/XLSX 参考文件、LLM 补齐、规则校验与 JSON 模板渲染。</text>
+</svg>

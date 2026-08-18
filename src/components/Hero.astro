@@ -1,20 +1,27 @@
 ---
 const { site } = Astro.props;
+const siteEn = site.translations?.en ?? {};
 ---
 
 <section class="hero" id="top">
   <div class="hero-copy">
     <p class="eyebrow">{site.brand}</p>
-    <h1>{site.name}</h1>
-    <p class="role">{site.role}</p>
-    <p class="intro">{site.intro}</p>
+    <h1 data-i18n-zh={site.name} data-i18n-en={siteEn.name}>{site.name}</h1>
+    <p class="role" data-i18n-zh={site.role} data-i18n-en={siteEn.role}>{site.role}</p>
   </div>
 
-  <div class="hero-panel">
-    <p class="panel-label">当前关注</p>
-    <ul>
-      {site.currentFocus.map((item) => <li>{item}</li>)}
+  <section class="hero-about" id="about" aria-labelledby="about-title">
+    <div class="hero-about-heading">
+      <h2 id="about-title" class="eyebrow">About</h2>
+    </div>
+    <ul class="bullet-list hero-about-list">
+      {site.aboutBullets.map((item, index) => (
+        <li data-i18n-zh={item} data-i18n-en={siteEn.aboutBullets?.[index] ?? item}>{item}</li>
+      ))}
     </ul>
-    <p class="panel-note">{site.location} · {site.email}</p>
-  </div>
+  </section>
+
+  <figure class="hero-photo">
+    <img src={site.portrait.src} alt={site.portrait.alt} loading="eager" decoding="async" />
+  </figure>
 </section>

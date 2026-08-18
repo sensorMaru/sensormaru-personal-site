@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteNav from '../components/SiteNav.astro';
 import Hero from '../components/Hero.astro';
-import SectionHeading from '../components/SectionHeading.astro';
 import Timeline from '../components/Timeline.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import SkillGroup from '../components/SkillGroup.astro';
@@ -11,6 +10,7 @@ import { site } from '../content/site';
 import { experience } from '../content/experience';
 import { projects } from '../content/projects';
 import { skills } from '../content/skills';
+import { sops } from '../content/sops';
 ---
 
 <BaseLayout title={`${site.brand} · ${site.name}`} description={site.about}>
@@ -18,50 +18,87 @@ import { skills } from '../content/skills';
     <SiteNav />
     <Hero site={site} />
 
-    <section id="about" class="content-section">
-      <SectionHeading eyebrow="About" title="关于我" />
-      <p class="body-copy">{site.about}</p>
-    </section>
-
     <section id="experience" class="content-section">
-      <SectionHeading eyebrow="Experience" title="教育与实习经历" description="左侧教育，右侧实习，用两条并行竖线拉开节奏。" />
+      <div class="projects-section-heading">
+        <p class="skills-eyebrow eyebrow">EXPERIENCE</p>
+        <h2 class="skills-title" data-i18n-zh="个人经历" data-i18n-en="Experience">个人经历</h2>
+      </div>
       <Timeline items={experience} />
     </section>
 
     <section id="projects" class="content-section">
       <div class="projects-section-heading">
         <p class="skills-eyebrow eyebrow">PROJECTS</p>
-        <h2 class="skills-title">项目作品</h2>
+        <h2 class="skills-title" data-i18n-zh="个人项目" data-i18n-en="Projects">个人项目</h2>
       </div>
       <div class="project-grid">
         {projects.map((project) => <ProjectCard project={project} />)}
       </div>
     </section>
 
+    <section id="sops" class="content-section sop-section">
+      <div class="projects-section-heading">
+        <p class="skills-eyebrow eyebrow">WORKFLOW</p>
+        <h2 class="skills-title">Agent Skills</h2>
+      </div>
+      <div class="sop-grid">
+        {sops.map((sop, index) => (
+          <article class="sop-card">
+            <button
+              class="sop-card-trigger"
+              type="button"
+              data-sop-trigger
+              data-sop-index={index}
+              aria-label={`查看 ${sop.name} 详情`}
+              data-i18n-aria-zh={`查看 ${sop.name} 详情`}
+              data-i18n-aria-en={`Open ${sop.translations?.en?.name ?? sop.name} details`}
+            >
+              <h3 data-i18n-zh={sop.name} data-i18n-en={sop.translations?.en?.name ?? sop.name}>{sop.name}</h3>
+              <p data-i18n-zh={sop.summary} data-i18n-en={sop.translations?.en?.summary ?? sop.summary}>{sop.summary}</p>
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
+
     <section id="skills" class="content-section skills-section">
       <p class="skills-eyebrow eyebrow">SKILLS</p>
-      <h2 class="skills-title">掌握技能</h2>
+      <h2 class="skills-title" data-i18n-zh="掌握技能" data-i18n-en="Skills">掌握技能</h2>
       <div class="skills-grid">
         {skills.map((group) => <SkillGroup group={group} />)}
       </div>
     </section>
 
     <section id="contact" class="content-section">
-      <SectionHeading eyebrow="Contact" title="联系方式" />
-      <a class="contact-link" href={`mailto:${site.email}`}>{site.email}</a>
+      <div class="contact-panel" aria-label="联系方式" data-i18n-aria-zh="联系方式" data-i18n-aria-en="Contact">
+        <div class="contact-item">
+          <p class="contact-label" data-i18n-zh="姓名" data-i18n-en="Name">姓名</p>
+          <p class="contact-value" data-i18n-zh={site.name} data-i18n-en={site.translations.en.name}>{site.name}</p>
+        </div>
+        <div class="contact-item">
+          <p class="contact-label" data-copy-label data-copy-default-zh="电话 / 微信（点击号码复制）" data-copy-default-en="Phone / WeChat (click to copy)" data-i18n-zh="电话 / 微信（点击号码复制）" data-i18n-en="Phone / WeChat (click to copy)">电话 / 微信（点击号码复制）</p>
+          <button class="contact-value contact-copy" type="button" data-copy-phone={site.phone} aria-label={`复制电话或微信号 ${site.phone}`} data-i18n-aria-zh={`复制电话或微信号 ${site.phone}`} data-i18n-aria-en={`Copy phone or WeChat ${site.phone}`}>
+            {site.phone}
+          </button>
+        </div>
+        <div class="contact-item">
+          <p class="contact-label">Github</p>
+          <a class="contact-value contact-github" href={site.githubUrl} target="_blank" rel="noreferrer">{site.githubHandle}</a>
+        </div>
+      </div>
     </section>
 
     <dialog class="project-dialog" data-project-dialog aria-labelledby="project-dialog-title">
       <div class="project-dialog-shell">
-        <button type="button" class="dialog-close" data-project-close aria-label="关闭项目详情">×</button>
+        <button type="button" class="dialog-close" data-project-close aria-label="关闭项目详情" data-i18n-aria-zh="关闭项目详情" data-i18n-aria-en="Close project details">×</button>
         <div class="project-dialog-layout">
-          <section class="project-dialog-visual" aria-label="项目预览">
+            <section class="project-dialog-visual" aria-label="项目预览" data-i18n-aria-zh="项目预览" data-i18n-aria-en="Project preview">
             <div class="project-dialog-carousel" data-project-carousel>
               <div class="project-dialog-slide-track" data-project-slide-track></div>
             </div>
-            <a class="project-dialog-visit" data-project-url href="#" target="_blank" rel="noreferrer">访问项目</a>
-            <button type="button" class="project-dialog-nav project-dialog-nav--prev" data-project-prev aria-label="上一张预览">‹</button>
-            <button type="button" class="project-dialog-nav project-dialog-nav--next" data-project-next aria-label="下一张预览">›</button>
+            <a class="project-dialog-visit" data-project-url href="#" target="_blank" rel="noreferrer" data-i18n-zh="访问项目" data-i18n-en="Visit Project">访问项目</a>
+            <button type="button" class="project-dialog-nav project-dialog-nav--prev" data-project-prev aria-label="上一张预览" data-i18n-aria-zh="上一张预览" data-i18n-aria-en="Previous preview">‹</button>
+            <button type="button" class="project-dialog-nav project-dialog-nav--next" data-project-next aria-label="下一张预览" data-i18n-aria-zh="下一张预览" data-i18n-aria-en="Next preview">›</button>
           </section>
 
           <aside class="project-dialog-info">
@@ -70,20 +107,37 @@ import { skills } from '../content/skills';
             <h2 id="project-dialog-title" data-project-title>项目名称</h2>
             <p class="project-dialog-summary" data-project-summary></p>
             <div class="project-dialog-highlights-block">
-              <h3>项目背景</h3>
+              <h3 data-i18n-zh="项目背景" data-i18n-en="Project Context">项目背景</h3>
               <p class="project-dialog-text" data-project-details></p>
             </div>
             <div class="project-dialog-highlights-block">
-              <h3>核心功能</h3>
+              <h3 data-i18n-zh="核心功能" data-i18n-en="Core Features">核心功能</h3>
               <ul class="bullet-list project-dialog-highlights" data-project-highlights></ul>
             </div>
           </aside>
         </div>
       </div>
     </dialog>
+
+    <dialog class="sop-dialog" data-sop-dialog aria-labelledby="sop-dialog-title">
+      <div class="sop-dialog-shell">
+        <header class="sop-dialog-header">
+          <h2 id="sop-dialog-title" data-sop-title>SOP</h2>
+          <button type="button" class="sop-dialog-close" data-sop-close aria-label="关闭 SOP 详情" data-i18n-aria-zh="关闭 SOP 详情" data-i18n-aria-en="Close workflow details">×</button>
+        </header>
+        <div class="sop-dialog-layout">
+          <section class="sop-flow-stage" data-sop-flow-stage aria-label="SOP 流程图" data-i18n-aria-zh="SOP 流程图" data-i18n-aria-en="Workflow flowchart">
+            <div class="sop-flow-canvas" data-sop-flow-canvas></div>
+          </section>
+          <aside class="sop-readme" data-sop-readme-panel aria-label="SOP README">
+            <div class="sop-readme-content" data-sop-readme></div>
+          </aside>
+        </div>
+      </div>
+    </dialog>
   </main>
 
-  <script define:vars={{ projects }}>
+  <script define:vars={{ projects, sops }}>
     const dialog = document.querySelector('[data-project-dialog]');
     const title = document.querySelector('[data-project-title]');
     const role = document.querySelector('[data-project-role]');
@@ -96,11 +150,100 @@ import { skills } from '../content/skills';
     const slideTrack = document.querySelector('[data-project-slide-track]');
     const prevButton = document.querySelector('[data-project-prev]');
     const nextButton = document.querySelector('[data-project-next]');
+    const phoneCopyButton = document.querySelector('[data-copy-phone]');
+    const phoneCopyLabel = document.querySelector('[data-copy-label]');
+    const sopDialog = document.querySelector('[data-sop-dialog]');
+    const sopTitle = document.querySelector('[data-sop-title]');
+    const sopReadme = document.querySelector('[data-sop-readme]');
+    const sopReadmePanel = document.querySelector('[data-sop-readme-panel]');
+    const sopFlowStage = document.querySelector('[data-sop-flow-stage]');
+    const sopFlowCanvas = document.querySelector('[data-sop-flow-canvas]');
+    const sopCloseButton = document.querySelector('[data-sop-close]');
 
     const projectMap = new Map(projects.map((project) => [project.slug, project]));
+    let currentLang = document.documentElement.dataset.lang === 'en' ? 'en' : 'zh';
+    let activeProject = null;
+    let activeSop = null;
     let activeSlideIndex = 0;
     let activeSlideCount = 0;
     let slideTimer;
+    let sopScale = 1;
+    let sopOffsetX = 0;
+    let sopOffsetY = 0;
+    let sopPanStart = null;
+    let activeSopFlowLinks = [];
+    let sopFlowNodes = new Map();
+    let sopSectionHeadings = [];
+    let activeSopSectionId = '';
+    let sopScrollFrame = 0;
+    let lockedPageScrollY = 0;
+    let pageScrollLockCount = 0;
+
+    function lockPageScroll() {
+      if (pageScrollLockCount === 0) {
+        lockedPageScrollY = window.scrollY;
+        document.documentElement.classList.add('is-dialog-open');
+        document.body.classList.add('is-dialog-open');
+      }
+
+      pageScrollLockCount += 1;
+    }
+
+    function unlockPageScroll() {
+      pageScrollLockCount = Math.max(0, pageScrollLockCount - 1);
+      if (pageScrollLockCount > 0) {
+        return;
+      }
+
+      document.documentElement.classList.remove('is-dialog-open');
+      document.body.classList.remove('is-dialog-open');
+      if (Math.abs(window.scrollY - lockedPageScrollY) > 1) {
+        window.scrollTo(0, lockedPageScrollY);
+      }
+    }
+
+    function localizedValue(source, key) {
+      if (!source) {
+        return '';
+      }
+
+      if (currentLang === 'en') {
+        return source.translations?.en?.[key] ?? source[`${key}En`] ?? source[key] ?? '';
+      }
+
+      return source[key] ?? '';
+    }
+
+    function localizedArray(source, key) {
+      if (!source) {
+        return [];
+      }
+
+      if (currentLang === 'en') {
+        return source.translations?.en?.[key] ?? source[`${key}En`] ?? source[key] ?? [];
+      }
+
+      return source[key] ?? [];
+    }
+
+    function localizedProjectImageAlt(project, image, index) {
+      if (currentLang !== 'en') {
+        return image.alt;
+      }
+
+      return project.translations?.en?.detailImageAlts?.[index] ?? project.translations?.en?.imageAlt ?? image.alt;
+    }
+
+    function localizedSopFlowImageAlt(sop) {
+      return currentLang === 'en' ? sop.translations?.en?.flowImageAlt ?? sop.flowImage?.alt : sop.flowImage?.alt;
+    }
+
+    function localizedSopFlowLinks(sop) {
+      return getSopFlowLinks(sop).map((link) => ({
+        ...link,
+        title: currentLang === 'en' ? link.titleEn ?? link.title : link.title
+      }));
+    }
 
     function updateCarousel() {
       if (!(slideTrack instanceof HTMLElement)) {
@@ -154,11 +297,11 @@ import { skills } from '../content/skills';
         return;
       }
 
-      title.textContent = project.title;
-      role.textContent = project.role;
-      period.textContent = project.period;
-      summary.textContent = project.summary;
-      details.textContent = project.details;
+      title.textContent = localizedValue(project, 'title');
+      role.textContent = localizedValue(project, 'role');
+      period.textContent = localizedValue(project, 'period');
+      summary.textContent = localizedValue(project, 'summary');
+      details.textContent = localizedValue(project, 'details');
       url.href = project.url;
 
       activeSlideIndex = 0;
@@ -198,13 +341,13 @@ import { skills } from '../content/skills';
         const images = project.detailImages?.length ? project.detailImages : project.image ? [project.image] : [];
         activeSlideCount = images.length;
         slideTrack.replaceChildren(
-          ...images.map((image) => {
+          ...images.map((image, index) => {
             const figure = document.createElement('figure');
             figure.className = 'project-dialog-slide';
 
             const img = document.createElement('img');
             img.src = image.src;
-            img.alt = image.alt;
+            img.alt = localizedProjectImageAlt(project, image, index);
             img.loading = 'lazy';
             img.decoding = 'async';
 
@@ -217,12 +360,495 @@ import { skills } from '../content/skills';
       }
 
       highlights.replaceChildren(
-        ...project.highlights.map((item) => {
+        ...localizedArray(project, 'highlights').map((item) => {
           const li = document.createElement('li');
           li.textContent = item;
           return li;
         })
       );
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function clampSopOffset() {
+      if (!(sopFlowStage instanceof HTMLElement) || !(sopFlowCanvas instanceof HTMLElement)) {
+        return;
+      }
+
+      const maxX = Math.max(0, (sopFlowCanvas.offsetWidth * sopScale - sopFlowStage.clientWidth) / 2 + 72);
+      const maxY = Math.max(0, (sopFlowCanvas.offsetHeight * sopScale - sopFlowStage.clientHeight) / 2 + 72);
+      sopOffsetX = clamp(sopOffsetX, -maxX, maxX);
+      sopOffsetY = clamp(sopOffsetY, -maxY, maxY);
+    }
+
+    function applySopTransform() {
+      if (!(sopFlowCanvas instanceof HTMLElement)) {
+        return;
+      }
+
+      clampSopOffset();
+      sopFlowCanvas.style.transform = `translate3d(${sopOffsetX}px, ${sopOffsetY}px, 0) scale(${sopScale})`;
+    }
+
+    function resetSopTransform() {
+      sopScale = 1;
+      sopOffsetX = 0;
+      sopOffsetY = 0;
+      applySopTransform();
+    }
+
+    function normalizeFlowText(text) {
+      return String(text ?? '').replace(/\s+/g, ' ').trim();
+    }
+
+    function getSopFlowLinks(sop) {
+      return Array.isArray(sop?.flowLinks) ? sop.flowLinks : [];
+    }
+
+    function getRectNumber(rect, attribute) {
+      return Number.parseFloat(rect.getAttribute(attribute) ?? '0') || 0;
+    }
+
+    function getRectBounds(rect) {
+      const x = getRectNumber(rect, 'x');
+      const y = getRectNumber(rect, 'y');
+      const width = getRectNumber(rect, 'width');
+      const height = getRectNumber(rect, 'height');
+      return { x, y, width, height, area: width * height };
+    }
+
+    function rectContainsPoint(rect, x, y) {
+      const bounds = getRectBounds(rect);
+      return x >= bounds.x && x <= bounds.x + bounds.width && y >= bounds.y && y <= bounds.y + bounds.height;
+    }
+
+    function textCenter(textElement) {
+      const box = textElement.getBBox();
+      return {
+        x: box.x + box.width / 2,
+        y: box.y + box.height / 2
+      };
+    }
+
+    function findSopFlowNode(svgRoot, label) {
+      const normalizedLabel = normalizeFlowText(label);
+      const texts = [...svgRoot.querySelectorAll('text')];
+      const targetText =
+        texts.find((text) => normalizeFlowText(text.textContent) === normalizedLabel) ??
+        texts.find((text) => normalizeFlowText(text.textContent).includes(normalizedLabel));
+
+      if (!targetText) {
+        return null;
+      }
+
+      const center = textCenter(targetText);
+      const rects = [...svgRoot.querySelectorAll('rect.box, rect.lane')];
+      const rect = rects
+        .filter((candidate) => rectContainsPoint(candidate, center.x, center.y))
+        .sort((a, b) => getRectBounds(a).area - getRectBounds(b).area)[0];
+
+      if (!rect) {
+        return null;
+      }
+
+      const bounds = getRectBounds(rect);
+      const nodeTexts = texts.filter((text) => {
+        const textPoint = textCenter(text);
+        return textPoint.x >= bounds.x && textPoint.x <= bounds.x + bounds.width && textPoint.y >= bounds.y && textPoint.y <= bounds.y + bounds.height;
+      });
+
+      return {
+        rect,
+        texts: nodeTexts.length ? nodeTexts : [targetText]
+      };
+    }
+
+    function injectSopSvgInteractionStyles(svgRoot) {
+      if (svgRoot.querySelector('#sop-flow-interaction-style')) {
+        return;
+      }
+
+      const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+      style.id = 'sop-flow-interaction-style';
+      style.textContent = `
+        rect.sop-flow-linked-node,
+        text.sop-flow-linked-text {
+          cursor: pointer;
+          transition: fill 180ms ease, opacity 180ms ease, stroke 180ms ease, stroke-width 180ms ease, filter 180ms ease;
+        }
+
+        rect.sop-flow-active-node {
+          stroke: #f8d18a !important;
+          stroke-width: 5 !important;
+          fill: rgba(248, 209, 138, 0.08) !important;
+          filter: drop-shadow(0 0 16px rgba(248, 209, 138, 0.78));
+        }
+
+        text.sop-flow-active-text {
+          fill: #fff7dc !important;
+        }
+      `;
+      svgRoot.querySelector('defs')?.append(style);
+    }
+
+    function updateSopFlowActive(sectionId) {
+      const activeLink = activeSopFlowLinks.find((link) => link.id === sectionId);
+      const activeLabels = new Set(activeLink?.nodeLabels ?? []);
+
+      sopFlowNodes.forEach((node, label) => {
+        const active = activeLabels.has(label);
+        node.rect.classList.toggle('sop-flow-active-node', active);
+        node.texts.forEach((text) => text.classList.toggle('sop-flow-active-text', active));
+      });
+    }
+
+    function updateSopActiveSection(sectionId) {
+      if (!sectionId) {
+        return;
+      }
+
+      activeSopSectionId = sectionId;
+      sopSectionHeadings.forEach((heading) => {
+        heading.classList.toggle('is-active', heading.dataset.sopSection === sectionId);
+      });
+      updateSopFlowActive(sectionId);
+    }
+
+    function scheduleSopActiveSectionFromScroll() {
+      if (sopScrollFrame) {
+        window.cancelAnimationFrame(sopScrollFrame);
+      }
+
+      sopScrollFrame = window.requestAnimationFrame(() => {
+        sopScrollFrame = 0;
+
+        if (!(sopReadmePanel instanceof HTMLElement) || !sopSectionHeadings.length) {
+          return;
+        }
+
+        const panelTop = sopReadmePanel.getBoundingClientRect().top;
+        let currentHeading = sopSectionHeadings[0];
+
+        sopSectionHeadings.forEach((heading) => {
+          if (heading.getBoundingClientRect().top - panelTop <= 96) {
+            currentHeading = heading;
+          }
+        });
+
+        updateSopActiveSection(currentHeading.dataset.sopSection);
+      });
+    }
+
+    function scrollSopReadmeToSection(sectionId) {
+      if (!(sopReadmePanel instanceof HTMLElement)) {
+        return;
+      }
+
+      const heading = sopSectionHeadings.find((item) => item.dataset.sopSection === sectionId);
+      if (!heading) {
+        return;
+      }
+
+      const panelRect = sopReadmePanel.getBoundingClientRect();
+      const headingRect = heading.getBoundingClientRect();
+      const top = sopReadmePanel.scrollTop + headingRect.top - panelRect.top - 18;
+      updateSopActiveSection(sectionId);
+      sopReadmePanel.scrollTo({ top, behavior: 'smooth' });
+    }
+
+    function bindSopSvgNode(element, sectionId) {
+      if (element.dataset.sopFlowTarget) {
+        return;
+      }
+
+      element.dataset.sopFlowTarget = sectionId;
+      element.setAttribute('role', 'button');
+      element.setAttribute('tabindex', '0');
+      element.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        scrollSopReadmeToSection(element.dataset.sopFlowTarget);
+      });
+      element.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') {
+          return;
+        }
+
+        event.preventDefault();
+        scrollSopReadmeToSection(element.dataset.sopFlowTarget);
+      });
+    }
+
+    function setupSopSvgInteractions(sop, svgRoot) {
+      if (!(svgRoot instanceof SVGSVGElement)) {
+        return;
+      }
+
+      injectSopSvgInteractionStyles(svgRoot);
+      sopFlowNodes = new Map();
+      const primaryTargets = new Map();
+
+      getSopFlowLinks(sop).forEach((link) => {
+        link.nodeLabels.forEach((label) => {
+          if (!sopFlowNodes.has(label)) {
+            const node = findSopFlowNode(svgRoot, label);
+            if (node) {
+              sopFlowNodes.set(label, node);
+            }
+          }
+
+          primaryTargets.set(label, link.id);
+        });
+      });
+
+      sopFlowNodes.forEach((node, label) => {
+        const sectionId = primaryTargets.get(label);
+        if (!sectionId) {
+          return;
+        }
+
+        node.rect.classList.add('sop-flow-linked-node');
+        const targetTitle = activeSopFlowLinks.find((link) => link.id === sectionId)?.title ?? (currentLang === 'en' ? 'the matching' : '对应');
+        node.rect.setAttribute('aria-label', currentLang === 'en' ? `Jump to ${targetTitle} section` : `跳转到 ${targetTitle} 章节`);
+        bindSopSvgNode(node.rect, sectionId);
+
+        node.texts.forEach((text) => {
+          text.classList.add('sop-flow-linked-text');
+          bindSopSvgNode(text, sectionId);
+        });
+      });
+
+      updateSopFlowActive(activeSopSectionId);
+    }
+
+    function parseSopSvg(svgText, label) {
+      const parsed = new DOMParser().parseFromString(svgText, 'image/svg+xml');
+      const parseError = parsed.querySelector('parsererror');
+      const svg = parsed.documentElement;
+
+      if (parseError || svg.nodeName.toLowerCase() !== 'svg') {
+        return null;
+      }
+
+      svg.querySelectorAll('script, foreignObject').forEach((node) => node.remove());
+      svg.removeAttribute('width');
+      svg.removeAttribute('height');
+      svg.classList.add('sop-flow-svg');
+      svg.setAttribute('role', 'img');
+      svg.setAttribute('aria-label', label);
+      return document.importNode(svg, true);
+    }
+
+    function applySopSvgLanguage(sop, svgRoot) {
+      const translations = sop.translations?.en?.flowTextTranslations ?? {};
+
+      svgRoot.querySelectorAll('text').forEach((text) => {
+        const originalText = text.dataset.sopFlowTextZh ?? normalizeFlowText(text.textContent);
+        text.dataset.sopFlowTextZh = originalText;
+        text.textContent = currentLang === 'en' ? translations[originalText] ?? originalText : originalText;
+      });
+    }
+
+    function renderSopFlow(sop) {
+      if (!(sopFlowCanvas instanceof HTMLElement)) {
+        return;
+      }
+
+      sopFlowNodes = new Map();
+
+      if (sop.flowImage?.src) {
+        const label = localizedSopFlowImageAlt(sop) ?? `${localizedValue(sop, 'name')} ${currentLang === 'en' ? 'flowchart' : '流程图'}`;
+        fetch(sop.flowImage.src)
+          .then((response) => (response.ok ? response.text() : Promise.reject(new Error('SOP SVG failed to load'))))
+          .then((svgText) => {
+            const svg = parseSopSvg(svgText, label);
+            if (!svg) {
+              return;
+            }
+
+            sopFlowCanvas.replaceChildren(svg);
+            setupSopSvgInteractions(sop, svg);
+            applySopSvgLanguage(sop, svg);
+          })
+          .catch(() => {
+            const image = document.createElement('img');
+            image.className = 'sop-flow-image';
+            image.src = sop.flowImage.src;
+            image.alt = label;
+            image.decoding = 'async';
+            image.draggable = false;
+            sopFlowCanvas.replaceChildren(image);
+          });
+        return;
+      }
+
+      const empty = document.createElement('p');
+      empty.className = 'sop-flow-empty';
+      empty.textContent = currentLang === 'en' ? 'Flowchart pending' : '流程图待补充';
+      sopFlowCanvas.replaceChildren(empty);
+    }
+
+    function appendInlineText(parent, text) {
+      const segments = text.split(/(`[^`]+`)/g).filter(Boolean);
+      segments.forEach((segment) => {
+        if (segment.startsWith('`') && segment.endsWith('`')) {
+          const code = document.createElement('code');
+          code.textContent = segment.slice(1, -1);
+          parent.append(code);
+        } else {
+          parent.append(document.createTextNode(segment));
+        }
+      });
+    }
+
+    function renderMarkdown(markdown, flowLinks = []) {
+      const fragment = document.createDocumentFragment();
+      const lines = String(markdown ?? '').split('\n');
+      const flowLinkByTitle = new Map(flowLinks.map((link) => [normalizeFlowText(link.title), link]));
+      const readmeTitle = document.createElement('h3');
+      let paragraphLines = [];
+      let currentList = null;
+      let currentCode = null;
+
+      readmeTitle.className = 'sop-readme-title';
+      readmeTitle.textContent = 'README';
+      fragment.append(readmeTitle);
+
+      function flushParagraph() {
+        if (!paragraphLines.length) {
+          return;
+        }
+
+        const paragraph = document.createElement('p');
+        appendInlineText(paragraph, paragraphLines.join(' '));
+        fragment.append(paragraph);
+        paragraphLines = [];
+      }
+
+      function flushList() {
+        if (currentList) {
+          fragment.append(currentList);
+          currentList = null;
+        }
+      }
+
+      lines.forEach((line) => {
+        const trimmed = line.trim();
+
+        if (trimmed.startsWith('```')) {
+          flushParagraph();
+          flushList();
+
+          if (currentCode) {
+            fragment.append(currentCode.pre);
+            currentCode = null;
+          } else {
+            const pre = document.createElement('pre');
+            const code = document.createElement('code');
+            pre.append(code);
+            currentCode = { pre, code, lines: [] };
+          }
+          return;
+        }
+
+        if (currentCode) {
+          currentCode.lines.push(line);
+          currentCode.code.textContent = currentCode.lines.join('\n');
+          return;
+        }
+
+        if (!trimmed) {
+          flushParagraph();
+          flushList();
+          return;
+        }
+
+        const heading = trimmed.match(/^(#{1,3})\s+(.+)$/);
+        if (heading) {
+          flushParagraph();
+          flushList();
+          const markdownLevel = heading[1].length;
+          if (markdownLevel === 1) {
+            return;
+          }
+
+          const level = Math.min(markdownLevel + 2, 5);
+          const node = document.createElement(`h${level}`);
+          const headingTitle = heading[2];
+          const flowLink = flowLinkByTitle.get(normalizeFlowText(headingTitle));
+          if (flowLink) {
+            node.id = `sop-readme-${flowLink.id}`;
+            node.dataset.sopSection = flowLink.id;
+            node.tabIndex = -1;
+          }
+          appendInlineText(node, headingTitle);
+          fragment.append(node);
+          return;
+        }
+
+        const bullet = trimmed.match(/^-\s+(.+)$/);
+        const ordered = trimmed.match(/^\d+\.\s+(.+)$/);
+        if (bullet || ordered) {
+          flushParagraph();
+          const listTag = ordered ? 'ol' : 'ul';
+          if (!currentList || currentList.tagName.toLowerCase() !== listTag) {
+            flushList();
+            currentList = document.createElement(listTag);
+          }
+
+          const item = document.createElement('li');
+          appendInlineText(item, (bullet ?? ordered)[1]);
+          currentList.append(item);
+          return;
+        }
+
+        paragraphLines.push(trimmed);
+      });
+
+      flushParagraph();
+      flushList();
+      if (currentCode) {
+        fragment.append(currentCode.pre);
+      }
+
+      return fragment;
+    }
+
+    function renderSopReadme(sop) {
+      if (!(sopReadme instanceof HTMLElement)) {
+        return;
+      }
+
+      activeSopFlowLinks = localizedSopFlowLinks(sop);
+      sopReadme.replaceChildren(renderMarkdown(localizedValue(sop, 'readmeMarkdown') || localizedValue(sop, 'summary'), activeSopFlowLinks));
+      sopSectionHeadings = [...sopReadme.querySelectorAll('[data-sop-section]')];
+      activeSopSectionId = sopSectionHeadings[0]?.dataset.sopSection ?? '';
+      if (sopReadmePanel instanceof HTMLElement) {
+        sopReadmePanel.scrollTop = 0;
+      }
+      updateSopActiveSection(activeSopSectionId);
+    }
+
+    function openSopDialog(sop) {
+      if (!(sopDialog instanceof HTMLDialogElement) || !sop || !(sopTitle instanceof HTMLElement)) {
+        return;
+      }
+
+      activeSop = sop;
+      sopTitle.textContent = localizedValue(sop, 'name');
+      renderSopReadme(sop);
+      renderSopFlow(sop);
+      resetSopTransform();
+      lockPageScroll();
+      try {
+        sopDialog.showModal();
+      } catch (error) {
+        unlockPageScroll();
+        throw error;
+      }
+      window.requestAnimationFrame(() => updateSopActiveSection(activeSopSectionId));
     }
 
     document.querySelectorAll('[data-project-trigger]').forEach((trigger) => {
@@ -232,14 +858,21 @@ import { skills } from '../content/skills';
           return;
         }
 
-        const project = projectMap.get(slug);
-        if (!project) {
-          return;
-        }
+	        const project = projectMap.get(slug);
+	        if (!project) {
+	          return;
+	        }
 
-        fillProject(project);
-        dialog.showModal();
-      });
+	        activeProject = project;
+	        fillProject(project);
+	        lockPageScroll();
+	        try {
+	          dialog.showModal();
+	        } catch (error) {
+	          unlockPageScroll();
+	          throw error;
+	        }
+	      });
     });
 
     closeButton?.addEventListener('click', () => {
@@ -257,9 +890,163 @@ import { skills } from '../content/skills';
       }
     });
 
-    dialog?.addEventListener('close', () => {
-      stopCarousel();
-      stopDialogMedia();
+	    dialog?.addEventListener('close', () => {
+	      stopCarousel();
+	      stopDialogMedia();
+	      activeProject = null;
+	      unlockPageScroll();
+	    });
+
+	    document.querySelectorAll('[data-sop-trigger]').forEach((trigger) => {
+	      trigger.addEventListener('click', () => {
+	        const index = Number(trigger.getAttribute('data-sop-index'));
+	        openSopDialog(sops[index]);
+	      });
+    });
+
+    sopCloseButton?.addEventListener('click', () => {
+      if (sopDialog instanceof HTMLDialogElement) {
+        sopDialog.close();
+      }
+    });
+
+    sopDialog?.addEventListener('click', (event) => {
+      if (event.target === sopDialog && sopDialog instanceof HTMLDialogElement) {
+        sopDialog.close();
+      }
+    });
+
+	    sopDialog?.addEventListener('close', () => {
+	      resetSopTransform();
+	      sopPanStart = null;
+	      activeSop = null;
+	      sopFlowNodes = new Map();
+      sopSectionHeadings = [];
+      activeSopSectionId = '';
+      sopFlowStage?.classList.remove('is-panning');
+      unlockPageScroll();
+	    });
+
+	    window.addEventListener('site-language-change', (event) => {
+	      currentLang = event.detail?.lang === 'en' ? 'en' : 'zh';
+
+	      if (activeProject && dialog instanceof HTMLDialogElement && dialog.open) {
+	        fillProject(activeProject);
+	      }
+
+	      if (activeSop && sopDialog instanceof HTMLDialogElement && sopDialog.open) {
+	        sopTitle.textContent = localizedValue(activeSop, 'name');
+	        renderSopReadme(activeSop);
+	        renderSopFlow(activeSop);
+	      }
+	    });
+
+    sopReadmePanel?.addEventListener('scroll', scheduleSopActiveSectionFromScroll);
+
+    sopFlowStage?.addEventListener('wheel', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (event.altKey || event.metaKey || event.ctrlKey) {
+        const nextScale = clamp(sopScale + -event.deltaY * 0.0022, 0.72, 2.65);
+        const scaleRatio = nextScale / sopScale;
+        sopOffsetX *= scaleRatio;
+        sopOffsetY *= scaleRatio;
+        sopScale = nextScale;
+      } else {
+        sopOffsetX -= event.deltaX;
+        sopOffsetY -= event.deltaY;
+      }
+
+      applySopTransform();
+    }, { passive: false });
+
+    sopFlowStage?.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse' && event.button !== 1) {
+        return;
+      }
+
+      event.preventDefault();
+      sopPanStart = {
+        pointerId: event.pointerId,
+        x: event.clientX,
+        y: event.clientY,
+        offsetX: sopOffsetX,
+        offsetY: sopOffsetY
+      };
+      sopFlowStage.setPointerCapture?.(event.pointerId);
+      sopFlowStage.classList.add('is-panning');
+    });
+
+    sopFlowStage?.addEventListener('pointermove', (event) => {
+      if (!sopPanStart || sopPanStart.pointerId !== event.pointerId) {
+        return;
+      }
+
+      sopOffsetX = sopPanStart.offsetX + event.clientX - sopPanStart.x;
+      sopOffsetY = sopPanStart.offsetY + event.clientY - sopPanStart.y;
+      applySopTransform();
+    });
+
+    function stopSopPan(event) {
+      if (!sopPanStart || sopPanStart.pointerId !== event.pointerId) {
+        return;
+      }
+
+      sopPanStart = null;
+      sopFlowStage?.classList.remove('is-panning');
+    }
+
+    sopFlowStage?.addEventListener('pointerup', stopSopPan);
+    sopFlowStage?.addEventListener('pointercancel', stopSopPan);
+    sopFlowStage?.addEventListener('auxclick', (event) => event.preventDefault());
+
+    async function copyText(text) {
+      if (navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch {
+          // Fall through to the selection-based copy path.
+        }
+      }
+
+      const input = document.createElement('textarea');
+      input.value = text;
+      input.setAttribute('readonly', '');
+      input.style.position = 'fixed';
+      input.style.top = '-999px';
+      document.body.append(input);
+      input.select();
+
+      let copied = false;
+      try {
+        copied = document.execCommand('copy');
+      } finally {
+        input.remove();
+      }
+
+      return copied;
+    }
+
+    phoneCopyButton?.addEventListener('click', async () => {
+      const phone = phoneCopyButton.getAttribute('data-copy-phone');
+      if (!phone) {
+        return;
+      }
+
+      const defaultLabel = phoneCopyLabel?.getAttribute(currentLang === 'en' ? 'data-copy-default-en' : 'data-copy-default-zh') ?? '电话 / 微信（点击号码复制）';
+
+      await copyText(phone);
+      if (phoneCopyLabel) {
+        phoneCopyLabel.textContent = currentLang === 'en' ? 'Phone / WeChat (copied)' : '电话 / 微信（已复制）';
+      }
+
+      window.setTimeout(() => {
+        if (phoneCopyLabel) {
+          phoneCopyLabel.textContent = defaultLabel;
+        }
+      }, 1400);
     });
   </script>
 </BaseLayout>

@@ -3,6 +3,8 @@ const navItems = [
   { href: '#about', labelZh: '关于', labelEn: 'About' },
   { href: '#experience', labelZh: '经历', labelEn: 'Experience' },
   { href: '#projects', labelZh: '项目', labelEn: 'Projects' },
+  { href: '#sops', labelZh: 'Workflow', labelEn: 'Workflow' },
+  { href: '#skills', labelZh: 'Skills', labelEn: 'Skills' },
   { href: '#contact', labelZh: '联系', labelEn: 'Contact' }
 ] as const;
 ---
@@ -32,35 +34,66 @@ const navItems = [
 
 <script>
   const root = document.documentElement;
-  const toggle = document.querySelector('[data-lang-toggle]');
-  const toggleText = document.querySelector('[data-lang-text]');
-  const translatables = document.querySelectorAll('[data-label-zh]');
   const storedLang = localStorage.getItem('site-lang');
   let lang = storedLang === 'en' ? 'en' : 'zh';
 
-  function syncLang() {
+  function syncLang({ emit = true } = {}) {
     root.dataset.lang = lang;
     root.lang = lang === 'en' ? 'en' : 'zh-CN';
 
-    toggle?.setAttribute('aria-pressed', String(lang === 'en'));
-    if (toggleText) {
-      toggleText.textContent = lang === 'en' ? 'EN / 中' : '中 / EN';
-    }
+    document.querySelectorAll('[data-lang-toggle]').forEach((button) => {
+      button.setAttribute('aria-pressed', String(lang === 'en'));
+    });
 
+    document.querySelectorAll('[data-lang-text]').forEach((label) => {
+      label.textContent = lang === 'en' ? 'EN / 中' : '中 / EN';
+    });
+
+    const translatables = document.querySelectorAll('[data-i18n-zh], [data-label-zh]');
     translatables.forEach((node) => {
-      const nextLabel = lang === 'en' ? node.dataset.labelEn : node.dataset.labelZh;
+      const nextLabel = lang === 'en'
+        ? node.dataset.i18nEn ?? node.dataset.labelEn
+        : node.dataset.i18nZh ?? node.dataset.labelZh;
       if (nextLabel) {
         node.textContent = nextLabel;
       }
     });
 
+    document.querySelectorAll('[data-i18n-aria-zh]').forEach((node) => {
+      const nextLabel = lang === 'en' ? node.dataset.i18nAriaEn : node.dataset.i18nAriaZh;
+      if (nextLabel) {
+        node.setAttribute('aria-label', nextLabel);
+      }
+    });
+
     localStorage.setItem('site-lang', lang);
+    if (emit) {
+      window.dispatchEvent(new CustomEvent('site-language-change', { detail: { lang } }));
+    }
   }
 
-  toggle?.addEventListener('click', () => {
+  window.siteLanguage = {
+    get: () => lang,
+    set: (nextLang) => {
+      lang = nextLang === 'en' ? 'en' : 'zh';
+      syncLang();
+    },
+    sync: () => syncLang({ emit: false })
+  };
+
+  document.addEventListener('click', (event) => {
+    const button = event.target instanceof Element ? event.target.closest('[data-lang-toggle]') : null;
+    if (!button) {
+      return;
+    }
+
     lang = lang === 'en' ? 'zh' : 'en';
     syncLang();
   });
 
-  syncLang();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => syncLang(), { once: true });
+  } else {
+    syncLang();
+  }
 </script>

@@ -3,43 +3,61 @@ const { items } = Astro.props;
 
 const education = items.filter((item) => item.kind === 'education');
 const internships = items.filter((item) => item.kind === 'internship');
+
+const en = (item, key) => item.translations?.en?.[key] ?? item[key];
+const enArray = (item, key) => item.translations?.en?.[key] ?? item[key] ?? [];
 ---
 
 <div class="experience-columns">
   <section class="experience-track">
-    <p class="experience-track-label">教育经历</p>
+    <p class="experience-track-label" data-i18n-zh="教育经历" data-i18n-en="Education">教育经历</p>
     {education.map((item) => (
       <article class="experience-entry">
-        <div class="experience-entry-marker" aria-hidden="true"></div>
+        {item.logo ? (
+          <div class:list={['experience-logo', item.logo.variant ? `experience-logo--${item.logo.variant}` : null]}>
+            <img src={item.logo.src} alt={item.logo.alt} loading="lazy" decoding="async" />
+          </div>
+        ) : null}
         <div class="experience-entry-content">
-          <p class="experience-kind">教育</p>
           <div class="experience-entry-head">
-            <h3>{item.title}</h3>
+            <div class="experience-title-block">
+              <h3 data-i18n-zh={item.title} data-i18n-en={en(item, 'title')}>{item.title}</h3>
+              <p class="experience-org" data-i18n-zh={item.org} data-i18n-en={en(item, 'org')}>{item.org}</p>
+            </div>
             <span class="experience-period">{item.period}</span>
           </div>
-          <p class="experience-org">{item.org}</p>
-          <p class="experience-summary">{item.summary}</p>
+          <p class="experience-summary" data-i18n-zh={item.summary} data-i18n-en={en(item, 'summary')}>{item.summary}</p>
+          {item.bullets ? (
+            <ul class="bullet-list">
+              {item.bullets.map((bullet, index) => <li data-i18n-zh={bullet} data-i18n-en={enArray(item, 'bullets')[index] ?? bullet}>{bullet}</li>)}
+            </ul>
+          ) : null}
         </div>
       </article>
     ))}
   </section>
 
   <section class="experience-track">
-    <p class="experience-track-label">实习经历</p>
+    <p class="experience-track-label" data-i18n-zh="实习经历" data-i18n-en="Internships">实习经历</p>
     {internships.map((item) => (
       <article class="experience-entry">
-        <div class="experience-entry-marker" aria-hidden="true"></div>
+        {item.logo ? (
+          <div class:list={['experience-logo', item.logo.variant ? `experience-logo--${item.logo.variant}` : null]}>
+            <img src={item.logo.src} alt={item.logo.alt} loading="lazy" decoding="async" />
+          </div>
+        ) : null}
         <div class="experience-entry-content">
-          <p class="experience-kind">实习</p>
           <div class="experience-entry-head">
-            <h3>{item.title}</h3>
+            <div class="experience-title-block">
+              <h3 data-i18n-zh={item.title} data-i18n-en={en(item, 'title')}>{item.title}</h3>
+              <p class="experience-org" data-i18n-zh={item.org} data-i18n-en={en(item, 'org')}>{item.org}</p>
+            </div>
             <span class="experience-period">{item.period}</span>
           </div>
-          <p class="experience-org">{item.org}</p>
-          <p class="experience-summary">{item.summary}</p>
+          <p class="experience-summary" data-i18n-zh={item.summary} data-i18n-en={en(item, 'summary')}>{item.summary}</p>
           {item.bullets ? (
             <ul class="bullet-list">
-              {item.bullets.map((bullet) => <li>{bullet}</li>)}
+              {item.bullets.map((bullet, index) => <li data-i18n-zh={bullet} data-i18n-en={enArray(item, 'bullets')[index] ?? bullet}>{bullet}</li>)}
             </ul>
           ) : null}
         </div>

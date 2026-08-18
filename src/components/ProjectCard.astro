@@ -1,16 +1,26 @@
 ---
 const { project } = Astro.props;
+const isExternalProject = /^https?:\/\//.test(project.url);
+const projectEn = project.translations?.en ?? {};
 ---
 
 <article class:list={['project-card', project.featured && 'featured']}>
-  <button type="button" class="project-card-hitarea" data-project-trigger data-project-slug={project.slug}>
-    <span class="sr-only">查看 {project.title} 项目详情</span>
+  <button
+    type="button"
+    class="project-card-hitarea"
+    data-project-trigger
+    data-project-slug={project.slug}
+    data-i18n-aria-zh={`查看 ${project.title} 项目详情`}
+    data-i18n-aria-en={`Open ${projectEn.title ?? project.title} project details`}
+  >
+    <span class="sr-only" data-i18n-zh={`查看 ${project.title} 项目详情`} data-i18n-en={`Open ${projectEn.title ?? project.title} project details`}>
+      查看 {project.title} 项目详情
+    </span>
   </button>
   <div class="project-card-inner">
     {project.image ? (
       <div class="project-card-media">
         <img src={project.image.src} alt={project.image.alt} class="project-card-image" loading="lazy" decoding="async" />
-        {project.cardBadge ? <span class="project-card-badge">{project.cardBadge}</span> : null}
       </div>
     ) : null}
 
@@ -20,8 +30,21 @@ const { project } = Astro.props;
         <span class="project-card-tag">{project.cardTag ?? project.period}</span>
       </div>
 
-      <h3>{project.title}</h3>
-      <p class="project-summary">{project.summary}</p>
+      <h3 data-i18n-zh={project.title} data-i18n-en={projectEn.title ?? project.title}>{project.title}</h3>
+      <p class="project-summary" data-i18n-zh={project.summary} data-i18n-en={projectEn.summary ?? project.summary}>{project.summary}</p>
     </div>
   </div>
+  <a
+    class="project-card-visit"
+    href={project.url}
+    target={isExternalProject ? '_blank' : undefined}
+    rel={isExternalProject ? 'noreferrer' : undefined}
+    aria-label={`访问 ${project.title}`}
+    data-i18n-aria-zh={`访问 ${project.title}`}
+    data-i18n-aria-en={`Visit ${projectEn.title ?? project.title}`}
+    data-i18n-zh="访问项目"
+    data-i18n-en="Visit Project"
+  >
+    访问项目
+  </a>
 </article>

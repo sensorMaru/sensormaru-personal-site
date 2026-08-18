@@ -3,18 +3,20 @@ const { group } = Astro.props;
 ---
 
 <section class="skill-group">
-  <h3>{group.title}</h3>
+  <h3 data-i18n-zh={group.title} data-i18n-en={group.titleEn ?? group.title}>{group.title}</h3>
   <div class="skill-tags">
-    {group.items.map((item) => {
+    {group.items.map((item, index) => {
+      const localizedItem = group.itemsEn?.[index] ?? item;
       const label = typeof item === 'string' ? item : item.label;
       const icon = typeof item === 'string' ? null : item.icon;
       const alt = typeof item === 'string' ? label : item.alt ?? label;
       const tone = typeof item === 'string' ? null : item.tone;
+      const labelEn = typeof localizedItem === 'string' ? localizedItem : localizedItem.label;
 
       return (
         <span class:list={['skill-tag', icon && 'skill-tag--icon']}>
           {icon ? <img src={icon} alt={alt} class:list={['skill-tag-icon', tone && `skill-tag-icon--${tone}`]} loading="lazy" decoding="async" /> : null}
-          <span>{label}</span>
+          <span data-i18n-zh={label} data-i18n-en={labelEn}>{label}</span>
         </span>
       );
     })}

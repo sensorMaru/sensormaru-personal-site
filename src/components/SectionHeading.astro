@@ -1,11 +1,11 @@
 ---
-const { eyebrow, title, description, titleClass } = Astro.props;
+const { eyebrow, title, titleEn, description, descriptionEn, titleClass } = Astro.props;
 ---
 
 <header class="section-heading">
   <p class="eyebrow">{eyebrow}</p>
   <div class="heading-copy">
-    <h2 class:list={[titleClass]}>{title}</h2>
-    {description ? <p>{description}</p> : null}
+    <h2 class:list={[titleClass]} data-i18n-zh={title} data-i18n-en={titleEn ?? title}>{title}</h2>
+    {description ? <p data-i18n-zh={description} data-i18n-en={descriptionEn ?? description}>{description}</p> : null}
   </div>
 </header>
