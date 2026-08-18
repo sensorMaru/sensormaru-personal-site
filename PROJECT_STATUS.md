@@ -2,7 +2,7 @@
 
 更新时间：2026-08-18
 当前分支：`main`
-当前状态：本地已完成当前批次 UI、内容、交互与验证工作；生产部署已完成，待提交并推送 GitHub `main`。
+当前状态：当前批次 UI、内容、交互与验证工作已完成；生产部署已完成；GitHub `main` 已推送本次变更。
 
 ## 当前目标
 
@@ -67,6 +67,7 @@
 - Wrangler 发布地址：`https://sensormaru-personal-site.solitude1900szy.workers.dev`；`curl -I` 返回 HTTP 200。
 - 自定义域名抽查：`https://sensormaru.com` 的 `curl -I` 返回 HTTP 200。
 - 线上内容抽查：生产首页可检索到 `Zhiyu Shen`、`Agent Skills`、`Workflow`、`App Store评论采集与分析Skills` 和 `食谱数据清洗skills`。
+- Git 同步结果：功能提交 `76bb58a` 已推送到 `origin/main`。
 
 ## 已知问题
 
@@ -84,8 +85,7 @@
 
 ## 下一步开发顺序
 
-1. 将本次变更提交并推送到 GitHub `main`。
-2. 在生产站点抽查桌面端和移动端：首页首屏、个人经历、项目卡片、Agent Skills、掌握技能、联系区。
-3. 重点回归弹窗体验：项目详情、SOP 详情、中英切换、外部滚动锁定、SOP 流程节点高亮和点击跳转。
-4. 继续补齐更多项目和 Agent Skill 的结构化数据、封面、详情媒体、README 和流程图。
-5. 如后续频繁手动发布，补充明确的 Cloudflare 部署说明或配置文件，但不要提交任何密钥。
+1. 在生产站点抽查桌面端和移动端：首页首屏、个人经历、项目卡片、Agent Skills、掌握技能、联系区。
+2. 重点回归弹窗体验：项目详情、SOP 详情、中英切换、外部滚动锁定、SOP 流程节点高亮和点击跳转。
+3. 继续补齐更多项目和 Agent Skill 的结构化数据、封面、详情媒体、README 和流程图。
+4. 如后续频繁手动发布，补充明确的 Cloudflare 部署说明或配置文件，但不要提交任何密钥。
