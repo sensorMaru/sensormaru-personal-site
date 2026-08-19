@@ -15,9 +15,9 @@ export const site = {
     src: '/profile/shen-zhiyu.jpg',
     alt: '沈智宇个人照片'
   },
-  email: '17816501613@163.com',
+  email: 'sensorMaru@163.com',
   phone: '17816501613',
-  githubHandle: 'SensorMaru',
+  githubHandle: 'sensorMaru',
   githubUrl: 'https://github.com/sensorMaru',
   location: '中国',
   currentFocus: ['AI 产品', '产品设计', '数据分析', '科研辅助工具'],

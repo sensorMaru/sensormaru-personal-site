@@ -42,7 +42,7 @@ export const projects: ProjectItem[] = [
   {
     slug: 'global-design-award-museum',
     title: 'Global Design Award Museum',
-    summary: '一个面向全球设计奖项的检索与归档空间。',
+    summary: '一个面向全球设计奖项的检索聚合网站',
     details:
       '设计大奖官网分散且普遍缺乏开放 API，设计师寻找参考作品需要反复浏览多个官网，效率较低。',
     role: '项目作品',
@@ -78,7 +78,7 @@ export const projects: ProjectItem[] = [
     translations: {
       en: {
         title: 'Global Design Award Museum',
-        summary: 'A searchable archive space for global design awards.',
+        summary: 'A search aggregation website for global design awards.',
         details:
           'Major design award sites are scattered and often lack open APIs, so designers need to browse many official sites repeatedly when looking for reference work.',
         role: 'Project',

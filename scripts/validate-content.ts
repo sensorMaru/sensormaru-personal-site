@@ -1,6 +1,7 @@
 import { experience } from '../src/content/experience';
 import { projects } from '../src/content/projects';
 import { site } from '../src/content/site';
+import { skills } from '../src/content/skills';
 
 import { readFileSync } from 'node:fs';
 
@@ -60,11 +61,27 @@ if (globalDesignAwardMuseumProject?.url !== 'https://awards.sensormaru.com/') {
   throw new Error('Global Design Award Museum link must point to awards.sensormaru.com');
 }
 
+if (
+  globalDesignAwardMuseumProject?.summary !== '一个面向全球设计奖项的检索聚合网站' ||
+  globalDesignAwardMuseumProject.translations?.en?.summary !==
+    'A search aggregation website for global design awards.'
+) {
+  throw new Error('Global Design Award Museum summaries must match the requested bilingual copy');
+}
+
+if (skills[0]?.title !== '产品工作流' || skills[0]?.titleEn !== 'Product Workflow') {
+  throw new Error('The first skill group title must match the requested bilingual product workflow copy');
+}
+
 if (site.phone !== '17816501613') {
   throw new Error('Contact phone must match the requested public phone number');
 }
 
-if (site.githubHandle !== 'SensorMaru') {
+if (site.email !== 'sensorMaru@163.com') {
+  throw new Error('Contact email must match the requested public email address');
+}
+
+if (site.githubHandle !== 'sensorMaru') {
   throw new Error('Contact GitHub handle must match the requested handle');
 }
 
@@ -72,11 +89,16 @@ if (site.role !== '产品经理 / AI产品经理') {
   throw new Error('Hero role must match the requested product manager wording');
 }
 
+if (site.name !== '沈智宇' || site.translations.en.name !== 'Shen Zhiyu') {
+  throw new Error('Hero and contact names must preserve the confirmed Chinese and English names');
+}
+
 if (site.translations.en.role !== 'Product Manager / AI Product Manager') {
   throw new Error('Hero English role must match the updated product manager wording');
 }
 
 const indexSource = readFileSync('src/pages/index.astro', 'utf8');
+const heroSource = readFileSync('src/components/Hero.astro', 'utf8');
 const navSource = readFileSync('src/components/SiteNav.astro', 'utf8');
 const projectCardSource = readFileSync('src/components/ProjectCard.astro', 'utf8');
 const sopsSource = readFileSync('src/content/sops.ts', 'utf8');
@@ -96,6 +118,20 @@ const vcmFoodReadmeEnSource = readFileSync('src/data/sop-readmes/vcm-food-search
 const emgSopFlowSource = readFileSync('public/sop-assets/emg-analysis-project-flow-4x3.svg', 'utf8');
 const emgReadmeSource = readFileSync('src/data/sop-readmes/emg-analysis.md', 'utf8');
 const emgReadmeEnSource = readFileSync('src/data/sop-readmes/emg-analysis.en.md', 'utf8');
+
+const emailContactIndex = indexSource.indexOf('class="contact-value contact-email"');
+const githubContactIndex = indexSource.indexOf('class="contact-value contact-github"');
+
+if (
+  !indexSource.includes('data-i18n-zh="邮箱"') ||
+  !indexSource.includes('data-i18n-en="Email"') ||
+  !indexSource.includes('href={`mailto:${site.email}`}') ||
+  emailContactIndex === -1 ||
+  githubContactIndex === -1 ||
+  emailContactIndex >= githubContactIndex
+) {
+  throw new Error('Email contact must be bilingual, use site.email, and appear above GitHub');
+}
 
 for (const requiredText of ['个人项目', '个人经历', 'Skills &amp; SOP沉淀']) {
   if (!indexSource.includes(requiredText)) {
@@ -327,6 +363,26 @@ if (
 }
 
 if (
+  !heroSource.includes(
+    '<h1 data-i18n-zh={site.name} data-i18n-en={siteEn.name}>{site.name}</h1>'
+  )
+) {
+  throw new Error('Hero must keep the bilingual personal name binding');
+}
+
+if (
+  !/html\.is-dialog-open \.site-nav\s*\{[^}]*opacity:\s*0;[^}]*visibility:\s*hidden;[^}]*pointer-events:\s*none;/.test(stylesSource)
+) {
+  throw new Error('Site navigation must be hidden while a modal dialog is open');
+}
+
+if (
+  !/@media \(max-width: 640px\)[\s\S]*?\.dialog-close\s*\{[^}]*position:\s*sticky;[^}]*env\(safe-area-inset-top/.test(stylesSource)
+) {
+  throw new Error('Mobile project dialog close control must stay sticky below the browser safe area');
+}
+
+if (
   !stylesSource.includes('@keyframes dialog-window-in') ||
   !stylesSource.includes('@keyframes dialog-window-out') ||
   !stylesSource.includes('.project-dialog.is-closing') ||
@@ -359,6 +415,12 @@ if (
 
 if (!indexSource.includes('data-copy-label') || !indexSource.includes('电话 / 微信（已复制）')) {
   throw new Error('Phone copy feedback must update the contact label, not the phone number');
+}
+
+if (
+  !/@media \(max-width: 640px\)[\s\S]*?\.contact-email\s*\{[^}]*font-size:\s*1\.55rem;/.test(stylesSource)
+) {
+  throw new Error('Contact email must use a mobile-specific font size that keeps the address readable');
 }
 
 if (!indexSource.includes('data-sop-trigger') || !indexSource.includes('data-sop-dialog')) {

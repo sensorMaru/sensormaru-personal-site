@@ -1,7 +1,7 @@
 export const skills = [
   {
-    title: '产品思维',
-    titleEn: 'Product Thinking',
+    title: '产品工作流',
+    titleEn: 'Product Workflow',
     items: ['需求调研', '功能定义', 'PRD', '埋点设计', '测试上线'],
     itemsEn: ['User Research', 'Feature Definition', 'PRD', 'Tracking Design', 'Launch Testing']
   },

@@ -82,6 +82,10 @@ import { sops } from '../content/sops';
           </button>
         </div>
         <div class="contact-item">
+          <p class="contact-label" data-i18n-zh="邮箱" data-i18n-en="Email">邮箱</p>
+          <a class="contact-value contact-email" href={`mailto:${site.email}`}>{site.email}</a>
+        </div>
+        <div class="contact-item">
           <p class="contact-label">Github</p>
           <a class="contact-value contact-github" href={site.githubUrl} target="_blank" rel="noreferrer">{site.githubHandle}</a>
         </div>
