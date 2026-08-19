@@ -65,18 +65,15 @@ if (globalDesignAwardMuseumProject?.url !== 'https://awards.sensormaru.com/') {
 const parkInvestmentProject = projects.find(
   (project) => project.slug === 'park-investment-intelligence'
 );
-const globalDesignIndex = projects.findIndex(
-  (project) => project.slug === 'global-design-award-museum'
-);
-const parkInvestmentIndex = projects.findIndex(
-  (project) => project.slug === 'park-investment-intelligence'
-);
+const expectedProjectOrder = [
+  'global-design-award-museum',
+  'wm-tracking-demo',
+  '360-screenshot',
+  'park-investment-intelligence'
+];
 
-if (
-  globalDesignIndex === -1 ||
-  parkInvestmentIndex !== globalDesignIndex + 1
-) {
-  throw new Error('Park investment intelligence project must follow Global Design Award Museum');
+if (projects.map((project) => project.slug).join('|') !== expectedProjectOrder.join('|')) {
+  throw new Error('Project cards must match the requested desktop grid order');
 }
 
 if (
