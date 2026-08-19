@@ -55,12 +55,25 @@ if (wmTrackingProject?.url !== '/projects/wm-tracking-demo/index.html') {
   throw new Error('WM tracking demo link must point to the static index.html file');
 }
 
+const globalDesignAwardMuseumProject = projects.find((project) => project.slug === 'global-design-award-museum');
+if (globalDesignAwardMuseumProject?.url !== 'https://awards.sensormaru.com/') {
+  throw new Error('Global Design Award Museum link must point to awards.sensormaru.com');
+}
+
 if (site.phone !== '17816501613') {
   throw new Error('Contact phone must match the requested public phone number');
 }
 
 if (site.githubHandle !== 'SensorMaru') {
   throw new Error('Contact GitHub handle must match the requested handle');
+}
+
+if (site.role !== '产品经理 / AI产品经理') {
+  throw new Error('Hero role must match the requested product manager wording');
+}
+
+if (site.translations.en.role !== 'Product Manager / AI Product Manager') {
+  throw new Error('Hero English role must match the updated product manager wording');
 }
 
 const indexSource = readFileSync('src/pages/index.astro', 'utf8');
@@ -74,8 +87,17 @@ const appStoreReadmeEnSource = readFileSync('src/data/sop-readmes/app-store-revi
 const recipeSopFlowSource = readFileSync('public/sop-assets/recipe-clean-v2-flow-4x3.svg', 'utf8');
 const recipeReadmeSource = readFileSync('src/data/sop-readmes/recipe-clean-v2.md', 'utf8');
 const recipeReadmeEnSource = readFileSync('src/data/sop-readmes/recipe-clean-v2.en.md', 'utf8');
+const bpTranslatorSopFlowSource = readFileSync('public/sop-assets/bp-translator-project-flow-4x3.svg', 'utf8');
+const bpTranslatorReadmeSource = readFileSync('src/data/sop-readmes/bp-translator.md', 'utf8');
+const bpTranslatorReadmeEnSource = readFileSync('src/data/sop-readmes/bp-translator.en.md', 'utf8');
+const vcmFoodSopFlowSource = readFileSync('public/sop-assets/vcm-food-project-flow-4x3.svg', 'utf8');
+const vcmFoodReadmeSource = readFileSync('src/data/sop-readmes/vcm-food-search-completion.md', 'utf8');
+const vcmFoodReadmeEnSource = readFileSync('src/data/sop-readmes/vcm-food-search-completion.en.md', 'utf8');
+const emgSopFlowSource = readFileSync('public/sop-assets/emg-analysis-project-flow-4x3.svg', 'utf8');
+const emgReadmeSource = readFileSync('src/data/sop-readmes/emg-analysis.md', 'utf8');
+const emgReadmeEnSource = readFileSync('src/data/sop-readmes/emg-analysis.en.md', 'utf8');
 
-for (const requiredText of ['个人项目', '个人经历', 'Agent Skills']) {
+for (const requiredText of ['个人项目', '个人经历', 'Skills &amp; SOP沉淀']) {
   if (!indexSource.includes(requiredText)) {
     throw new Error(`Missing requested section title: ${requiredText}`);
   }
@@ -91,16 +113,20 @@ if (
   skillsSectionIndex === -1 ||
   !(projectsSectionIndex < sopsSectionIndex && sopsSectionIndex < skillsSectionIndex)
 ) {
-  throw new Error('Agent Skills section must appear between Projects and Skills');
+  throw new Error('Skills & SOP section must appear between Projects and Skills');
 }
 
 if (
   !navSource.includes("labelZh: 'Workflow'") ||
   !navSource.includes("href: '#sops'") ||
-  !navSource.includes("labelZh: 'Skills'") ||
+  !navSource.includes("labelZh: '技能'") ||
   !navSource.includes("href: '#skills'")
 ) {
-  throw new Error('Top navigation must include Workflow and Skills tabs with the requested anchors');
+  throw new Error('Top navigation must include Workflow and 技能 tabs with the requested anchors');
+}
+
+if (indexSource.includes('掌握技能')) {
+  throw new Error('Skills section title should use 技能 instead of 掌握技能');
 }
 
 if (
@@ -164,11 +190,71 @@ if (!recipeReadmeSource.includes('# recipe_clean_V2 Skill README') || !recipeRea
   throw new Error('Recipe SOP README source must be available for the detail dialog');
 }
 
+for (const requiredBpTranslatorSopText of [
+  '多语言自动翻译脚本',
+  '该脚本用于在产品上线新的语言时快速将全量文案翻译为该新语言，并生成csv字段',
+  '/sop-assets/bp-translator-project-flow-4x3.svg',
+  'bpTranslatorReadme',
+  'CSV 输入契约',
+  '格式校验',
+  '生成 loco_add.csv'
+]) {
+  if (!sopsSource.includes(requiredBpTranslatorSopText)) {
+    throw new Error(`Missing requested BP translator SOP content: ${requiredBpTranslatorSopText}`);
+  }
+}
+
+if (!bpTranslatorReadmeSource.includes('# Brazilian Portuguese CSV 翻译 Skill') || !bpTranslatorReadmeSource.includes('## 一、输入与运行基础确认')) {
+  throw new Error('BP translator SOP README source must be available for the detail dialog');
+}
+
+for (const requiredVcmFoodSopText of [
+  '食物库搜索失败自动补全skills',
+  '该脚本用于对接上游神策端数据库搜索无结果的数据，使用AI将其补全并交付至下游运营端上传新数据',
+  '/sop-assets/vcm-food-project-flow-4x3.svg',
+  'vcmFoodReadme',
+  '原始搜索数据',
+  '联网兜底与异常处理',
+  'vcm_food_nutri_part*.xlsx'
+]) {
+  if (!sopsSource.includes(requiredVcmFoodSopText)) {
+    throw new Error(`Missing requested VCM food SOP content: ${requiredVcmFoodSopText}`);
+  }
+}
+
+if (!vcmFoodReadmeSource.includes('# 食物库搜索结果清洗与营养估算 Skill') || !vcmFoodReadmeSource.includes('## 一、输入与处理口径确认')) {
+  throw new Error('VCM food SOP README source must be available for the detail dialog');
+}
+
+for (const requiredEmgSopText of [
+  '坐姿肩颈肌电信号&疲劳度分析skills',
+  '该 Skill 用于从 EDF 肌电原始数据中解析通道、计算 RMS/对称性/MF/MPF/疲劳评分，并生成终端摘要与 HTML 对比报告。',
+  '/sop-assets/emg-analysis-project-flow-4x3.svg',
+  'emgReadme',
+  'RMS 与对称性',
+  'MF / MPF 疲劳',
+  'emg_comparison.html'
+]) {
+  if (!sopsSource.includes(requiredEmgSopText)) {
+    throw new Error(`Missing requested EMG SOP content: ${requiredEmgSopText}`);
+  }
+}
+
+if (!emgReadmeSource.includes('# EMG 肌电 EDF 解析与疲劳对比 Skill') || !emgReadmeSource.includes('## 一、输入与实验口径确认')) {
+  throw new Error('EMG SOP README source must be available for the detail dialog');
+}
+
 if (
   !sopsSource.includes('appStoreReviewReadmeEn') ||
   !sopsSource.includes('recipeCleanReadmeEn') ||
+  !sopsSource.includes('bpTranslatorReadmeEn') ||
+  !sopsSource.includes('vcmFoodReadmeEn') ||
+  !sopsSource.includes('emgReadmeEn') ||
   !appStoreReadmeEnSource.includes('## 1. Input and Scope Confirmation') ||
-  !recipeReadmeEnSource.includes('## 1. Input and Scope Confirmation')
+  !recipeReadmeEnSource.includes('## 1. Input and Scope Confirmation') ||
+  !bpTranslatorReadmeEnSource.includes('## 1. Input and Runtime Confirmation') ||
+  !vcmFoodReadmeEnSource.includes('## 1. Input and Processing Scope Confirmation') ||
+  !emgReadmeEnSource.includes('## 1. Input and Experiment Scope Confirmation')
 ) {
   throw new Error('SOP dialogs must provide English README content for language switching');
 }
@@ -197,6 +283,78 @@ if (indexSource.includes('01') || indexSource.includes('需求拆解')) {
 
 if (stylesSource.includes('5.15rem')) {
   throw new Error('Contact value text should be reduced below the Skills title scale');
+}
+
+if (!stylesSource.includes('top: 1em') || !stylesSource.includes('calc(14px + 1em)')) {
+  throw new Error('Hero role text should move down by one unit of its own font height');
+}
+
+if (
+  !/\.hero-about-list\s*\{[^}]*font-size:\s*1\.1rem;/.test(stylesSource) ||
+  stylesSource.includes('hero-about-list {\n    font-size: 0.95rem;')
+) {
+  throw new Error('Hero About bullet text should match the hero role font size');
+}
+
+if (!stylesSource.includes('--hero-content-inset: 0px;')) {
+  throw new Error('Hero left content should align with the Experience section heading');
+}
+
+if (
+  !/\.bullet-list\.hero-about-list\s*\{[^}]*padding-left:\s*56px;/.test(stylesSource) ||
+  !stylesSource.includes('.bullet-list.hero-about-list {\n    font-size: 1.1rem;\n    padding-left: 52px;')
+) {
+  throw new Error('Hero About bullet content should align with the Experience entry titles');
+}
+
+if (
+  !stylesSource.includes('.cursor-glow') ||
+  !stylesSource.includes('--cursor-glow-size: 147px') ||
+  !stylesSource.includes('rgba(255, 255, 255, 0.09)') ||
+  !stylesSource.includes('rgba(255, 255, 255, 0.04)') ||
+  !stylesSource.includes('z-index: 2147483600') ||
+  !indexSource.includes('renderCursorGlow') ||
+  !indexSource.includes('cursorTargetX')
+) {
+  throw new Error('Mouse hover should render a smaller, dimmer delayed white glow above page elements');
+}
+
+if (
+  !stylesSource.includes('.site-nav-links a::after') ||
+  !/\.site-nav-links a:hover::after,\n\.site-nav-links a:focus-visible::after\s*\{[^}]*opacity:\s*0\.9;[^}]*transform:\s*scaleX\(1\);/.test(stylesSource)
+) {
+  throw new Error('Top navigation items should show an underline on hover and focus');
+}
+
+if (
+  !stylesSource.includes('@keyframes dialog-window-in') ||
+  !stylesSource.includes('@keyframes dialog-window-out') ||
+  !stylesSource.includes('.project-dialog.is-closing') ||
+  !stylesSource.includes('.sop-dialog.is-closing') ||
+  !indexSource.includes('showAnimatedDialog') ||
+  !indexSource.includes('closeAnimatedDialog') ||
+  !indexSource.includes("addEventListener('cancel'")
+) {
+  throw new Error('Project and SOP dialogs should animate when opening and closing');
+}
+
+if (
+  !indexSource.includes("document.querySelectorAll('.project-card, .sop-card, .skill-group')") ||
+  !indexSource.includes('--card-shift-x') ||
+  !stylesSource.includes('transition-duration: 120ms')
+) {
+  throw new Error('Cards should move subtly with pointer hover');
+}
+
+if (!stylesSource.includes('.project-card:hover .project-card-image') || !stylesSource.includes('transform: scale(1.2)')) {
+  throw new Error('Project card cover images should scale to 1.2 on hover');
+}
+
+if (
+  stylesSource.includes('.project-card:hover,\n.project-card:hover .project-card-inner') ||
+  /\.(project-card|sop-card)(?::hover|:focus-within)[^{]*\{[^}]*border-color:\s*var\(--accent\)/.test(stylesSource)
+) {
+  throw new Error('Card hover should not add the previous white accent border');
 }
 
 if (!indexSource.includes('data-copy-label') || !indexSource.includes('电话 / 微信（已复制）')) {
@@ -233,6 +391,45 @@ if (!sopFlowSource.includes('.bg,') || !sopFlowSource.includes('display: none') 
 
 if (!recipeSopFlowSource.includes('.bg,') || !recipeSopFlowSource.includes('display: none') || !recipeSopFlowSource.includes('.lane { fill: none')) {
   throw new Error('Recipe SOP flow SVG should remove decorative background blocks and keep core flow elements');
+}
+
+if (!bpTranslatorSopFlowSource.includes('.bg,') || !bpTranslatorSopFlowSource.includes('display: none') || !bpTranslatorSopFlowSource.includes('.lane { fill: none')) {
+  throw new Error('BP translator SOP flow SVG should remove decorative background blocks and keep core flow elements');
+}
+
+if (!vcmFoodSopFlowSource.includes('.bg,') || !vcmFoodSopFlowSource.includes('display: none') || !vcmFoodSopFlowSource.includes('.lane { fill: none')) {
+  throw new Error('VCM food SOP flow SVG should remove decorative background blocks and keep core flow elements');
+}
+
+if (!emgSopFlowSource.includes('.bg,') || !emgSopFlowSource.includes('display: none') || !emgSopFlowSource.includes('.lane { fill: none')) {
+  throw new Error('EMG SOP flow SVG should remove decorative background blocks and keep core flow elements');
+}
+
+for (const overflowingBpTranslatorText of [
+  '异常处理：缺少配置、接口失败、JSON 结构异常、空译文、占位符不匹配',
+  '诊断输出：终端进度、选中行数、跳过空原文行、重试原因、最终写出路径'
+]) {
+  if (bpTranslatorSopFlowSource.includes(`>${overflowingBpTranslatorText}</text>`)) {
+    throw new Error(`BP translator flow SVG should wrap long helper text inside its rounded rectangle: ${overflowingBpTranslatorText}`);
+  }
+}
+
+for (const overflowingVcmFoodText of [
+  '联网兜底：搜索结果 + LLM 清洗；网络或配置失败时回退本地规则',
+  '质量收口：去重、修复多逗号、避免品牌单独进入 food_name'
+]) {
+  if (vcmFoodSopFlowSource.includes(`>${overflowingVcmFoodText}</text>`)) {
+    throw new Error(`VCM food flow SVG should wrap long helper text inside its rounded rectangle: ${overflowingVcmFoodText}`);
+  }
+}
+
+for (const overflowingEmgText of [
+  '异常处理：EDF 头部异常、数据截断、通道数量不符、采样率不一致',
+  '终端诊断：文件元数据、通道标签、样本数、单文件指标摘要'
+]) {
+  if (emgSopFlowSource.includes(`>${overflowingEmgText}</text>`)) {
+    throw new Error(`EMG flow SVG should wrap long helper text inside its rounded rectangle: ${overflowingEmgText}`);
+  }
 }
 
 if (!stylesSource.includes('.sop-flow-svg') || !stylesSource.includes('background: transparent')) {

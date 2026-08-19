@@ -39,7 +39,7 @@ import { sops } from '../content/sops';
     <section id="sops" class="content-section sop-section">
       <div class="projects-section-heading">
         <p class="skills-eyebrow eyebrow">WORKFLOW</p>
-        <h2 class="skills-title">Agent Skills</h2>
+        <h2 class="skills-title">Skills &amp; SOP沉淀</h2>
       </div>
       <div class="sop-grid">
         {sops.map((sop, index) => (
@@ -63,7 +63,7 @@ import { sops } from '../content/sops';
 
     <section id="skills" class="content-section skills-section">
       <p class="skills-eyebrow eyebrow">SKILLS</p>
-      <h2 class="skills-title" data-i18n-zh="掌握技能" data-i18n-en="Skills">掌握技能</h2>
+      <h2 class="skills-title" data-i18n-zh="技能" data-i18n-en="Skills">技能</h2>
       <div class="skills-grid">
         {skills.map((group) => <SkillGroup group={group} />)}
       </div>
@@ -178,6 +178,201 @@ import { sops } from '../content/sops';
     let sopScrollFrame = 0;
     let lockedPageScrollY = 0;
     let pageScrollLockCount = 0;
+    const finePointerQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const interactiveCards = [...document.querySelectorAll('.project-card, .sop-card, .skill-group')];
+    let cursorGlow = null;
+    let cursorGlowFrame = 0;
+    let cursorTargetX = 0;
+    let cursorTargetY = 0;
+    let cursorGlowX = 0;
+    let cursorGlowY = 0;
+    let cursorGlowReady = false;
+    const dialogCloseAnimationMs = 240;
+    const closingDialogTimers = new WeakMap();
+
+    function pointerEffectsAllowed() {
+      return finePointerQuery.matches && !reducedMotionQuery.matches;
+    }
+
+    function activeTopLayerContainer() {
+      if (dialog instanceof HTMLDialogElement && dialog.open) {
+        return dialog;
+      }
+
+      if (sopDialog instanceof HTMLDialogElement && sopDialog.open) {
+        return sopDialog;
+      }
+
+      return document.body;
+    }
+
+    function syncCursorGlowLayer() {
+      if (!(cursorGlow instanceof HTMLElement)) {
+        return;
+      }
+
+      const container = activeTopLayerContainer();
+      if (cursorGlow.parentElement !== container) {
+        container.append(cursorGlow);
+      }
+    }
+
+    function ensureCursorGlow() {
+      if (cursorGlow instanceof HTMLElement) {
+        return cursorGlow;
+      }
+
+      cursorGlow = document.createElement('div');
+      cursorGlow.className = 'cursor-glow';
+      cursorGlow.setAttribute('aria-hidden', 'true');
+      document.body.append(cursorGlow);
+      return cursorGlow;
+    }
+
+    function renderCursorGlow() {
+      if (!(cursorGlow instanceof HTMLElement)) {
+        cursorGlowFrame = 0;
+        return;
+      }
+
+      cursorGlowX += (cursorTargetX - cursorGlowX) * 0.18;
+      cursorGlowY += (cursorTargetY - cursorGlowY) * 0.18;
+      cursorGlow.style.transform = `translate3d(${cursorGlowX}px, ${cursorGlowY}px, 0) translate(-50%, -50%)`;
+
+      const isCloseToPointer = Math.abs(cursorTargetX - cursorGlowX) < 0.2 && Math.abs(cursorTargetY - cursorGlowY) < 0.2;
+      if (cursorGlow.classList.contains('is-visible') || !isCloseToPointer) {
+        cursorGlowFrame = window.requestAnimationFrame(renderCursorGlow);
+      } else {
+        cursorGlowFrame = 0;
+      }
+    }
+
+    function startCursorGlowFrame() {
+      if (!cursorGlowFrame) {
+        cursorGlowFrame = window.requestAnimationFrame(renderCursorGlow);
+      }
+    }
+
+    function showCursorGlow(event) {
+      if (!pointerEffectsAllowed()) {
+        return;
+      }
+
+      const glow = ensureCursorGlow();
+      syncCursorGlowLayer();
+      cursorTargetX = event.clientX;
+      cursorTargetY = event.clientY;
+
+      if (!cursorGlowReady) {
+        cursorGlowX = cursorTargetX;
+        cursorGlowY = cursorTargetY;
+        cursorGlowReady = true;
+      }
+
+      glow.classList.add('is-visible');
+      startCursorGlowFrame();
+    }
+
+    function hideCursorGlow() {
+      if (cursorGlow instanceof HTMLElement) {
+        cursorGlow.classList.remove('is-visible');
+      }
+    }
+
+    function updateInteractiveCard(card, event) {
+      if (!(card instanceof HTMLElement) || !pointerEffectsAllowed()) {
+        return;
+      }
+
+      const rect = card.getBoundingClientRect();
+      const shiftX = ((event.clientX - rect.left) / rect.width - 0.5) * 10;
+      const shiftY = ((event.clientY - rect.top) / rect.height - 0.5) * 8;
+      card.style.setProperty('--card-shift-x', `${shiftX.toFixed(2)}px`);
+      card.style.setProperty('--card-shift-y', `${shiftY.toFixed(2)}px`);
+      card.classList.add('is-pointer-active');
+    }
+
+    function resetInteractiveCard(card) {
+      if (!(card instanceof HTMLElement)) {
+        return;
+      }
+
+      card.style.setProperty('--card-shift-x', '0px');
+      card.style.setProperty('--card-shift-y', '0px');
+      card.classList.remove('is-pointer-active');
+    }
+
+    function resetPointerEffects() {
+      hideCursorGlow();
+      cursorGlowReady = false;
+      interactiveCards.forEach(resetInteractiveCard);
+    }
+
+    function setupPointerEffects() {
+      document.addEventListener('pointermove', showCursorGlow, { passive: true });
+      document.addEventListener('pointerleave', hideCursorGlow);
+      window.addEventListener('blur', hideCursorGlow);
+
+      interactiveCards.forEach((card) => {
+        card.addEventListener('pointermove', (event) => updateInteractiveCard(card, event), { passive: true });
+        card.addEventListener('pointerleave', () => resetInteractiveCard(card));
+        card.addEventListener('pointercancel', () => resetInteractiveCard(card));
+      });
+
+      finePointerQuery.addEventListener?.('change', resetPointerEffects);
+      reducedMotionQuery.addEventListener?.('change', resetPointerEffects);
+    }
+
+    setupPointerEffects();
+
+    function clearDialogClosingState(targetDialog) {
+      if (!(targetDialog instanceof HTMLDialogElement)) {
+        return;
+      }
+
+      targetDialog.classList.remove('is-closing');
+      const timer = closingDialogTimers.get(targetDialog);
+      if (timer) {
+        window.clearTimeout(timer);
+        closingDialogTimers.delete(targetDialog);
+      }
+    }
+
+    function showAnimatedDialog(targetDialog) {
+      if (!(targetDialog instanceof HTMLDialogElement)) {
+        return;
+      }
+
+      clearDialogClosingState(targetDialog);
+      targetDialog.showModal();
+      syncCursorGlowLayer();
+    }
+
+    function closeAnimatedDialog(targetDialog) {
+      if (!(targetDialog instanceof HTMLDialogElement) || !targetDialog.open) {
+        return;
+      }
+
+      if (reducedMotionQuery.matches) {
+        targetDialog.close();
+        return;
+      }
+
+      if (targetDialog.classList.contains('is-closing')) {
+        return;
+      }
+
+      targetDialog.classList.add('is-closing');
+      const timer = window.setTimeout(() => {
+        closingDialogTimers.delete(targetDialog);
+        targetDialog.classList.remove('is-closing');
+        if (targetDialog.open) {
+          targetDialog.close();
+        }
+      }, dialogCloseAnimationMs);
+      closingDialogTimers.set(targetDialog, timer);
+    }
 
     function lockPageScroll() {
       if (pageScrollLockCount === 0) {
@@ -843,7 +1038,7 @@ import { sops } from '../content/sops';
       resetSopTransform();
       lockPageScroll();
       try {
-        sopDialog.showModal();
+        showAnimatedDialog(sopDialog);
       } catch (error) {
         unlockPageScroll();
         throw error;
@@ -858,27 +1053,25 @@ import { sops } from '../content/sops';
           return;
         }
 
-	        const project = projectMap.get(slug);
-	        if (!project) {
-	          return;
-	        }
+        const project = projectMap.get(slug);
+        if (!project) {
+          return;
+        }
 
-	        activeProject = project;
-	        fillProject(project);
-	        lockPageScroll();
-	        try {
-	          dialog.showModal();
-	        } catch (error) {
-	          unlockPageScroll();
-	          throw error;
-	        }
-	      });
+        activeProject = project;
+        fillProject(project);
+        lockPageScroll();
+        try {
+          showAnimatedDialog(dialog);
+        } catch (error) {
+          unlockPageScroll();
+          throw error;
+        }
+      });
     });
 
     closeButton?.addEventListener('click', () => {
-      if (dialog instanceof HTMLDialogElement) {
-        dialog.close();
-      }
+      closeAnimatedDialog(dialog);
     });
 
     prevButton?.addEventListener('click', () => moveCarousel(-1));
@@ -886,46 +1079,58 @@ import { sops } from '../content/sops';
 
     dialog?.addEventListener('click', (event) => {
       if (event.target === dialog && dialog instanceof HTMLDialogElement) {
-        dialog.close();
+        closeAnimatedDialog(dialog);
       }
     });
 
-	    dialog?.addEventListener('close', () => {
-	      stopCarousel();
-	      stopDialogMedia();
-	      activeProject = null;
-	      unlockPageScroll();
-	    });
+    dialog?.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeAnimatedDialog(dialog);
+    });
 
-	    document.querySelectorAll('[data-sop-trigger]').forEach((trigger) => {
-	      trigger.addEventListener('click', () => {
-	        const index = Number(trigger.getAttribute('data-sop-index'));
-	        openSopDialog(sops[index]);
-	      });
+    dialog?.addEventListener('close', () => {
+      clearDialogClosingState(dialog);
+      stopCarousel();
+      stopDialogMedia();
+      activeProject = null;
+      unlockPageScroll();
+      syncCursorGlowLayer();
+    });
+
+    document.querySelectorAll('[data-sop-trigger]').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const index = Number(trigger.getAttribute('data-sop-index'));
+        openSopDialog(sops[index]);
+      });
     });
 
     sopCloseButton?.addEventListener('click', () => {
-      if (sopDialog instanceof HTMLDialogElement) {
-        sopDialog.close();
-      }
+      closeAnimatedDialog(sopDialog);
     });
 
     sopDialog?.addEventListener('click', (event) => {
       if (event.target === sopDialog && sopDialog instanceof HTMLDialogElement) {
-        sopDialog.close();
+        closeAnimatedDialog(sopDialog);
       }
     });
 
-	    sopDialog?.addEventListener('close', () => {
-	      resetSopTransform();
-	      sopPanStart = null;
-	      activeSop = null;
-	      sopFlowNodes = new Map();
+    sopDialog?.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeAnimatedDialog(sopDialog);
+    });
+
+    sopDialog?.addEventListener('close', () => {
+      clearDialogClosingState(sopDialog);
+      resetSopTransform();
+      sopPanStart = null;
+      activeSop = null;
+      sopFlowNodes = new Map();
       sopSectionHeadings = [];
       activeSopSectionId = '';
       sopFlowStage?.classList.remove('is-panning');
       unlockPageScroll();
-	    });
+      syncCursorGlowLayer();
+    });
 
 	    window.addEventListener('site-language-change', (event) => {
 	      currentLang = event.detail?.lang === 'en' ? 'en' : 'zh';

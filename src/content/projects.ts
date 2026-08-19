@@ -47,7 +47,7 @@ export const projects: ProjectItem[] = [
       '设计大奖官网分散且普遍缺乏开放 API，设计师寻找参考作品需要反复浏览多个官网，效率较低。',
     role: '项目作品',
     period: '已上线',
-    url: 'https://design-award-meta-search.vercel.app/',
+    url: 'https://awards.sensormaru.com/',
     cardBadge: 'GDA',
     cardEyebrow: 'GLOBAL DESIGN AWARD',
     cardTag: 'MUSEUM',

@@ -1,7 +1,7 @@
 export const site = {
   brand: 'Zhiyu Shen',
   name: '沈智宇',
-  role: '产品经理 / AI 产品方向',
+  role: '产品经理 / AI产品经理',
   intro: '关注 AI 产品、设计研究和数据驱动的体验优化，把复杂流程整理成更清楚的产品路径。',
   about:
     '本人具备 AI 产品实习与海外产品实践经验，熟悉从用户调研、竞品分析、需求拆解、PRD 撰写、埋点设计到测试上线的产品迭代流程。',
@@ -24,7 +24,7 @@ export const site = {
   translations: {
     en: {
       name: 'Shen Zhiyu',
-      role: 'Product Manager / AI Product',
+      role: 'Product Manager / AI Product Manager',
       intro: 'Focused on AI products, design research, and data-driven experience optimization, turning complex workflows into clearer product paths.',
       about:
         'I have AI product internship and overseas product practice experience, with familiarity across user research, competitor analysis, requirement breakdown, PRD writing, event tracking, testing, and launch.',

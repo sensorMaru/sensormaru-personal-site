@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 95 1520 1035">
+  <defs>
+    <style>
+      .bg,
+      .subtitle,
+      .footer,
+      .divider,
+      .glow-blue,
+      .glow-teal,
+      .glow-rose {
+        display: none;
+      }
+      .subtitle { font: 400 22px -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; fill: #a6b4c8; letter-spacing: 0; }
+      .lane-title { font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; fill: #eef4ff; letter-spacing: 0; }
+      .box-title { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; fill: #f8fafc; letter-spacing: 0; }
+      .box-text { font: 400 16px -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; fill: #d3ddea; letter-spacing: 0; }
+      .small { font: 400 14.5px -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; fill: #9aa8bd; letter-spacing: 0; }
+      .footer { font: 400 15px -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; fill: #8ea0b8; letter-spacing: 0; }
+      .lane { fill: none; stroke: rgba(148, 163, 184, 0.28); stroke-width: 1.5; stroke-dasharray: 10 12; }
+      .box { fill: rgba(5, 7, 12, 0.10); stroke-width: 2.2; rx: 12; }
+      .box-blue { stroke: #38bdf8; }
+      .box-teal { stroke: #20c997; }
+      .box-amber { stroke: #f59f00; }
+      .box-purple { stroke: #9775fa; }
+      .box-rose { stroke: #ff6b81; }
+      .box-slate { stroke: #94a3b8; }
+      .arrow { stroke: #7dd3fc; stroke-width: 2.3; fill: none; marker-end: url(#arrowhead); }
+      .arrow-soft { stroke: #64748b; stroke-width: 1.8; fill: none; marker-end: url(#arrowhead-soft); stroke-dasharray: 8 8; }
+      .divider { stroke: #1f2937; stroke-width: 1.5; }
+      .glow-blue { fill: #60a5fa; opacity: 0.11; }
+      .glow-teal { fill: #34d399; opacity: 0.10; }
+      .glow-rose { fill: #fb7185; opacity: 0.10; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#7dd3fc"/>
+    </marker>
+    <marker id="arrowhead-soft" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="1200"/>
+  <circle class="glow-blue" cx="205" cy="85" r="180"/>
+  <circle class="glow-teal" cx="1405" cy="590" r="235"/>
+  <circle class="glow-rose" cx="1020" cy="1135" r="230"/>
+
+  <text class="subtitle" x="60" y="68">基于 SOP 口径、EDF 原始肌电解析、Python 指标计算与 HTML 可视化对比的整体技术路径</text>
+
+  <rect class="lane" x="50" y="110" width="1500" height="245" rx="18"/>
+  <text class="lane-title" x="76" y="154">一、输入与实验口径确认</text>
+
+  <rect class="box box-blue" x="85" y="203" width="300" height="95"/>
+  <text class="box-title" x="110" y="235">SOP / 任务口径</text>
+  <text class="box-text" x="110" y="264">确认角度、动作、时段</text>
+  <text class="small" x="110" y="289">画画 / 看书 / 积木等实验条件</text>
+
+  <rect class="box box-blue" x="430" y="203" width="300" height="95"/>
+  <text class="box-title" x="455" y="235">EDF 文件目录</text>
+  <text class="box-text" x="455" y="264">mat-edf/ 下所有 .edf</text>
+  <text class="small" x="455" y="289">文件名保留角度与任务信息</text>
+
+  <rect class="box box-blue" x="775" y="203" width="300" height="95"/>
+  <text class="box-title" x="800" y="235">运行环境</text>
+  <text class="box-text" x="800" y="264">Python 标准库</text>
+  <text class="small" x="800" y="289">无需额外第三方依赖</text>
+
+  <rect class="box box-blue" x="1120" y="203" width="300" height="95"/>
+  <text class="box-title" x="1145" y="235">通道与肌肉分组</text>
+  <text class="box-text" x="1145" y="264">4 通道按标签合并</text>
+  <text class="small" x="1145" y="289">两块肌肉，每块 2 个重复通道</text>
+
+  <path class="arrow" d="M385 251 H425"/>
+  <path class="arrow" d="M730 251 H770"/>
+  <path class="arrow" d="M1075 251 H1115"/>
+
+  <rect class="lane" x="50" y="390" width="1500" height="390" rx="18"/>
+  <text class="lane-title" x="76" y="434">二、EDF 解析与肌电指标计算主链路</text>
+
+  <rect class="box box-teal" x="72" y="500" width="190" height="134"/>
+  <text class="box-title" x="98" y="535">读取 EDF</text>
+  <text class="box-text" x="98" y="565">解析固定宽度头部</text>
+  <text class="box-text" x="98" y="592">读取记录与采样率</text>
+  <text class="small" x="98" y="620">支持元数据快速检查</text>
+
+  <rect class="box box-teal" x="295" y="500" width="190" height="134"/>
+  <text class="box-title" x="321" y="535">物理量转换</text>
+  <text class="box-text" x="321" y="565">int16 数字量转换</text>
+  <text class="box-text" x="321" y="592">输出 mV 样本序列</text>
+  <text class="small" x="321" y="620">校验截断和量程异常</text>
+
+  <rect class="box box-teal" x="518" y="500" width="190" height="134"/>
+  <text class="box-title" x="544" y="535">合并肌肉通道</text>
+  <text class="box-text" x="544" y="565">同标签通道求均值</text>
+  <text class="box-text" x="544" y="592">形成两块肌肉序列</text>
+  <text class="small" x="544" y="620">要求采样数和采样率一致</text>
+
+  <rect class="box box-amber" x="741" y="500" width="190" height="134"/>
+  <text class="box-title" x="767" y="535">RMS 与对称性</text>
+  <text class="box-text" x="767" y="565">计算全程 RMS</text>
+  <text class="box-text" x="767" y="592">比较左右 / 两肌肉发力</text>
+  <text class="small" x="767" y="620">输出更活跃肌肉</text>
+
+  <rect class="box box-amber" x="964" y="500" width="190" height="134"/>
+  <text class="box-title" x="990" y="535">MF / MPF 疲劳</text>
+  <text class="box-text" x="990" y="565">首尾窗口频域分析</text>
+  <text class="box-text" x="990" y="592">计算频率变化</text>
+  <text class="small" x="990" y="620">频率下降提示疲劳增强</text>
+
+  <rect class="box box-purple" x="1187" y="500" width="290" height="134"/>
+  <text class="box-title" x="1213" y="535">综合疲劳评分</text>
+  <text class="box-text" x="1213" y="565">MF 下降、MPF 下降、RMS 上升</text>
+  <text class="box-text" x="1213" y="592">生成 0-100 分疲劳证据</text>
+  <text class="small" x="1213" y="620">low / moderate / high 分级</text>
+
+  <path class="arrow" d="M262 567 H290"/>
+  <path class="arrow" d="M485 567 H513"/>
+  <path class="arrow" d="M708 567 H736"/>
+  <path class="arrow" d="M931 567 H959"/>
+  <path class="arrow" d="M1154 567 H1182"/>
+
+  <rect class="box box-slate" x="245" y="674" width="520" height="72"/>
+  <text class="small" x="270" y="702">异常处理：EDF 头部异常、数据截断</text>
+  <text class="small" x="270" y="727">通道数量不符、采样率不一致</text>
+  <path class="arrow-soft" d="M505 674 C505 652 526 628 538 607"/>
+
+  <rect class="box box-slate" x="790" y="674" width="500" height="72"/>
+  <text class="small" x="815" y="702">终端诊断：文件元数据、通道标签</text>
+  <text class="small" x="815" y="727">样本数、单文件指标摘要</text>
+  <path class="arrow-soft" d="M1040 674 C1040 652 955 627 931 607"/>
+
+  <rect class="lane" x="50" y="815" width="1500" height="285" rx="18"/>
+  <text class="lane-title" x="76" y="859">三、批量对比、可视化交付与复核</text>
+
+  <rect class="box box-purple" x="85" y="920" width="310" height="112"/>
+  <text class="box-title" x="111" y="953">批量分析</text>
+  <text class="box-text" x="111" y="983">遍历目录全部 EDF</text>
+  <text class="box-text" x="111" y="1010">逐文件输出核心摘要</text>
+
+  <rect class="box box-purple" x="430" y="920" width="310" height="112"/>
+  <text class="box-title" x="456" y="953">HTML 对比报告</text>
+  <text class="box-text" x="456" y="983">RMS、对称性、疲劳评分</text>
+  <text class="box-text" x="456" y="1010">MF / MPF 起止值与变化</text>
+
+  <rect class="box box-rose" x="775" y="920" width="310" height="112"/>
+  <text class="box-title" x="801" y="953">CSV 可选导出</text>
+  <text class="box-text" x="801" y="983">单文件对齐样本表</text>
+  <text class="box-text" x="801" y="1010">time_s + 各通道 mV</text>
+
+  <rect class="box box-rose" x="1120" y="920" width="310" height="112"/>
+  <text class="box-title" x="1146" y="953">测试与复盘</text>
+  <text class="box-text" x="1146" y="983">unittest 验证解析和报告</text>
+  <text class="box-text" x="1146" y="1010">对比不同角度和任务疲劳度</text>
+
+  <path class="arrow" d="M395 976 H425"/>
+  <path class="arrow" d="M740 976 H770"/>
+  <path class="arrow" d="M1085 976 H1115"/>
+  <path class="arrow-soft" d="M1332 634 C1332 750 240 792 240 915"/>
+  <path class="arrow-soft" d="M1332 634 C1332 780 930 795 930 915"/>
+
+  <line class="divider" x1="60" y1="1132" x2="1540" y2="1132"/>
+  <text class="footer" x="76" y="1164">交付物：终端分析摘要、emg_comparison.html、可选 emg_output.csv、测试用例。当前口径适用于两块肌肉、四通道 EDF 肌电文件。</text>
+</svg>

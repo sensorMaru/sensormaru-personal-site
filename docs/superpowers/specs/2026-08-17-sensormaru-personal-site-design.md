@@ -53,7 +53,7 @@ The content should be distilled from the resume rather than copied verbatim. The
 ### Project Work
 Use a featured-project layout. `design-award-meta-search` should be shown first, with a title, one-line summary, role or stack note, and a link card.
 
-Current live URL: `https://design-award-meta-search.vercel.app/`
+Current live URL: `https://awards.sensormaru.com/`
 
 The site should reserve space for more projects supplied later by the user. Those later projects should drop into the same card/list pattern without layout changes.
 
