@@ -99,6 +99,68 @@ export const projects: ProjectItem[] = [
     }
   },
   {
+    slug: 'park-investment-intelligence',
+    title: '园区招商前沿动态推送平台',
+    summary: '一个自动追踪重点园区招商动态、提炼招商打法与举措的园区情报工作台。',
+    details:
+      '解决人工逐个搜索园区微信公众号、阅读文章、整理招商信息效率低且难持续更新的问题。',
+    role: '项目作品',
+    period: '已上线',
+    url: 'https://park.sensormaru.com/',
+    cardBadge: 'PARK',
+    cardEyebrow: 'PARK INVESTMENT INTELLIGENCE',
+    cardTag: 'DISPATCH',
+    image: {
+      src: '/project-images/park-investment-intelligence.png',
+      alt: '园区招商前沿动态推送平台最新推送页面预览'
+    },
+    detailImages: [
+      {
+        src: '/project-detail-images/park-investment-intelligence-dispatch.png',
+        alt: '园区招商前沿动态推送平台最新推送视图'
+      },
+      {
+        src: '/project-detail-images/park-investment-intelligence-dataset.png',
+        alt: '园区招商前沿动态推送平台全量数据视图'
+      },
+      {
+        src: '/project-detail-images/park-investment-intelligence-source.png',
+        alt: '园区招商前沿动态推送平台原始公众号文章视图'
+      }
+    ],
+    highlights: [
+      '自动汇总重点园区的招商动态、公众号文章与参考链接。',
+      '提炼“2026年招商工作如何卷”和“2026年招商工作举措”等关键信息。',
+      '支持按省、市、状态和关键词筛选检索全量园区数据。',
+      '提供最新推送的周、月、季视图，按文章发布时间展示近期动态。',
+      '支持收藏重点园区动态，并在“已收藏”中集中查看。'
+    ],
+    translations: {
+      en: {
+        title: 'Industrial Park Investment Intelligence Platform',
+        summary:
+          'An industrial park intelligence workspace that automatically tracks key investment attraction updates and distills practical strategies and initiatives.',
+        details:
+          'It addresses the inefficiency and poor continuity of manually searching industrial park WeChat accounts, reading articles, and organizing investment attraction information one source at a time.',
+        role: 'Project',
+        period: 'Live',
+        imageAlt: 'Industrial Park Investment Intelligence Platform latest dispatch preview',
+        detailImageAlts: [
+          'Industrial Park Investment Intelligence Platform latest dispatch view',
+          'Industrial Park Investment Intelligence Platform complete dataset view',
+          'Industrial Park Investment Intelligence Platform source WeChat article view'
+        ],
+        highlights: [
+          'Automatically aggregates investment attraction updates, WeChat articles, and reference links from priority industrial parks.',
+          'Distills key intelligence such as how investment attraction teams compete in 2026 and the initiatives they are taking.',
+          'Supports full-dataset filtering and search by province, city, status, and keyword.',
+          'Provides weekly, monthly, and quarterly views of recent dispatches ordered by article publication time.',
+          'Lets users save priority updates and review them in a centralized Favorites view.'
+        ]
+      }
+    }
+  },
+  {
     slug: 'wm-tracking-demo',
     title: '可视化埋点事件地图',
     summary: '一个用于把 WM 核心功能的埋点数据、UI 截图和用户操作路径串联起来的可视化查看与讲解工具。',

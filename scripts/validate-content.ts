@@ -41,6 +41,7 @@ for (const item of experience) {
 
 const requiredProjectSlugs = [
   'global-design-award-museum',
+  'park-investment-intelligence',
   'wm-tracking-demo',
   '360-screenshot'
 ];
@@ -59,6 +60,50 @@ if (wmTrackingProject?.url !== '/projects/wm-tracking-demo/index.html') {
 const globalDesignAwardMuseumProject = projects.find((project) => project.slug === 'global-design-award-museum');
 if (globalDesignAwardMuseumProject?.url !== 'https://awards.sensormaru.com/') {
   throw new Error('Global Design Award Museum link must point to awards.sensormaru.com');
+}
+
+const parkInvestmentProject = projects.find(
+  (project) => project.slug === 'park-investment-intelligence'
+);
+const globalDesignIndex = projects.findIndex(
+  (project) => project.slug === 'global-design-award-museum'
+);
+const parkInvestmentIndex = projects.findIndex(
+  (project) => project.slug === 'park-investment-intelligence'
+);
+
+if (
+  globalDesignIndex === -1 ||
+  parkInvestmentIndex !== globalDesignIndex + 1
+) {
+  throw new Error('Park investment intelligence project must follow Global Design Award Museum');
+}
+
+if (
+  parkInvestmentProject?.title !== '园区招商前沿动态推送平台' ||
+  parkInvestmentProject.summary !==
+    '一个自动追踪重点园区招商动态、提炼招商打法与举措的园区情报工作台。' ||
+  parkInvestmentProject.details !==
+    '解决人工逐个搜索园区微信公众号、阅读文章、整理招商信息效率低且难持续更新的问题。' ||
+  parkInvestmentProject.url !== 'https://park.sensormaru.com/' ||
+  parkInvestmentProject.highlights.length !== 5
+) {
+  throw new Error('Park investment intelligence project content must match the requested copy');
+}
+
+if (
+  parkInvestmentProject.image?.src !==
+    '/project-images/park-investment-intelligence.png' ||
+  parkInvestmentProject.detailImages?.map((image) => image.src).join('|') !==
+    [
+      '/project-detail-images/park-investment-intelligence-dispatch.png',
+      '/project-detail-images/park-investment-intelligence-dataset.png',
+      '/project-detail-images/park-investment-intelligence-source.png'
+    ].join('|') ||
+  parkInvestmentProject.translations?.en?.highlights?.length !== 5 ||
+  parkInvestmentProject.translations.en.detailImageAlts?.length !== 3
+) {
+  throw new Error('Park investment intelligence project media and translations must be complete');
 }
 
 if (
