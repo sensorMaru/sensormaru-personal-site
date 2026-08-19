@@ -4,7 +4,9 @@
 
 当前分支：`main`
 
-当前状态：飞书文档 revision 211 与 revision 286 中已确认的页面修改均已在本地完成并通过验证，等待提交、推送和生产发布。
+当前状态：飞书文档 revision 211 与 revision 286 中已确认的页面修改均已完成；实现提交 `1926e6f` 已推送到 `origin/main`，并已发布到 `https://sensormaru.com/`。
+
+生产版本：Cloudflare Version ID `accf42c6-94a7-4b6a-8272-c51895327033`
 
 ## 当前目标
 
@@ -74,11 +76,30 @@
   - 页面横向溢出为 0。
 - 浏览器日志只有本地 Vite 连接调试信息，无 error 日志。
 
+2026-08-19 生产验证：
+
+- `https://sensormaru.com/`：HTTP 200。
+- `https://sensormaru-personal-site.solitude1900szy.workers.dev/`：HTTP 200。
+- 中文态：
+  - 首屏姓名为 `沈智宇`。
+  - GitHub 展示账号为 `sensorMaru`。
+  - 邮箱为 `sensorMaru@163.com`，链接为 `mailto:sensorMaru@163.com`。
+  - 项目简介与首个技能组标题均为已确认中文文案。
+- 英文态：
+  - 首屏姓名为 `Shen Zhiyu`。
+  - GitHub 展示账号仍为 `sensorMaru`。
+  - 项目简介为 `A search aggregation website for global design awards.`。
+  - 首个技能组标题为 `Product Workflow`。
+- 生产手机视口 `393 x 852`：
+  - 项目详情滚动后关闭按钮仍可点击。
+  - 固定导航隐藏，两个右上区域控件不重叠，横向溢出为 0。
+  - 关闭后 `<dialog>` 与页面滚动锁定均正常解除。
+- 生产浏览器 error 日志为空。
+
 ## 已知问题
 
 - 尚未在真实 iPhone 17 标准版的 Google Chrome 上回归；当前结果来自 Chromium 移动设备视口模拟。修复策略不依赖特定 UA，但生产发布后仍应使用真机复查。
 - 当前没有仓库级自动化 E2E 测试；语言切换、弹窗滚动和响应式布局仍依赖内容校验与浏览器回归。
-- 本轮尚未推送和部署，线上站点仍是上一版本。
 - Wrangler 发布依赖本机已有 Cloudflare 登录态，仓库中不得保存 Token、密码或其他凭据。
 - Wrangler 发布需要显式传入 `--compatibility-date`。
 
@@ -91,8 +112,6 @@
 
 ## 下一步开发顺序
 
-1. 提交当前实现与交接文档并推送到 `origin/main`。
-2. 使用已验证的 Wrangler 命令发布 `dist/`。
-3. 抽查 `https://sensormaru.com/` 的中英文姓名、GitHub 账号、项目简介、技能标题、邮箱和移动端项目弹窗。
-4. 使用真实 iPhone 17 Chrome 复查项目详情关闭流程。
-5. 后续补充正式 E2E 测试，覆盖语言切换、联系区顺序、项目弹窗和手机端无横向溢出。
+1. 使用真实 iPhone 17 Chrome 复查项目详情关闭流程。
+2. 后续补充正式 E2E 测试，覆盖语言切换、联系区顺序、项目弹窗和手机端无横向溢出。
+3. 后续飞书需求继续按“读取最新 revision -> 核对标注图 -> 校验先行 -> 实现 -> 桌面/手机双语回归 -> 发布 -> 更新本文件”的顺序执行。
