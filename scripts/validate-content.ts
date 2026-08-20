@@ -44,7 +44,8 @@ const requiredProjectSlugs = [
   'park-investment-intelligence',
   'wm-tracking-demo',
   '360-screenshot',
-  'pet-mobile-air-purifier-aigc-film'
+  'pet-mobile-air-purifier-aigc-film',
+  'treadmill-workstation-ai-film'
 ];
 
 for (const slug of requiredProjectSlugs) {
@@ -71,7 +72,8 @@ const expectedProjectOrder = [
   'wm-tracking-demo',
   '360-screenshot',
   'park-investment-intelligence',
-  'pet-mobile-air-purifier-aigc-film'
+  'pet-mobile-air-purifier-aigc-film',
+  'treadmill-workstation-ai-film'
 ];
 
 if (projects.map((project) => project.slug).join('|') !== expectedProjectOrder.join('|')) {
@@ -110,8 +112,8 @@ const petAirPurifierProject = projects.find(
 );
 
 if (
-  petAirPurifierProject?.title !== '宠物移动净化器AIGC宣传片' ||
-  petAirPurifierProject.summary !== '邦泽创科-宠物净化器AIGC宣传' ||
+  petAirPurifierProject?.title !== '宠物移动净化器AI宣传片' ||
+  petAirPurifierProject.summary !== '邦泽创科-一款自动巡航&回仓的宠物空气净化器' ||
   petAirPurifierProject.details !==
     '对接邦泽创科企业需求，为其新产品发布制作AIGC宣传片，突出产品使用场景和核心功能' ||
   petAirPurifierProject.url !== undefined ||
@@ -130,9 +132,9 @@ if (
   petAirPurifierProject.detailVideo.poster !==
     '/project-images/pet-mobile-air-purifier-aigc-film.png' ||
   petAirPurifierProject.translations?.en?.title !==
-    'Pet Mobile Air Purifier AIGC Promo Film' ||
+    'Pet Mobile Air Purifier AI Promo Film' ||
   petAirPurifierProject.translations.en.summary !==
-    "An AIGC promotional film for BONSEN's pet air purifier." ||
+    'BONSEN - a pet air purifier with autonomous patrol and return-to-dock functionality.' ||
   petAirPurifierProject.translations.en.details !==
     "Created for BONSEN's new product launch to present the pet air purifier's real-life use scenarios and core functions." ||
   petAirPurifierProject.translations.en.role !== 'AIGC Promo Film' ||
@@ -148,6 +150,51 @@ if (
     ].join('|')
 ) {
   throw new Error('Pet air purifier AIGC project media and translations must be complete');
+}
+
+const treadmillWorkstationProject = projects.find(
+  (project) => project.slug === 'treadmill-workstation-ai-film'
+);
+
+if (
+  treadmillWorkstationProject?.title !== 'Treadmill Workstation AI宣传片' ||
+  treadmillWorkstationProject.summary !==
+    '英莱达集团-一款面向欧美市场的电动升降桌产品，集成了电动升降桌与走步机的功能' ||
+  treadmillWorkstationProject.details !==
+    '对接英莱达集团需求，为其新产品发布制作AIGC宣传片，突出产品使用场景和核心功能' ||
+  treadmillWorkstationProject.url !== undefined ||
+  treadmillWorkstationProject.highlights.join('|') !==
+    ['桌跑一体设计', '一体化智能控制', '折叠收纳省空间'].join('|')
+) {
+  throw new Error('Treadmill workstation AI project content must match the requested copy');
+}
+
+if (
+  treadmillWorkstationProject.image?.src !==
+    '/project-images/treadmill-workstation-ai-film.png' ||
+  treadmillWorkstationProject.detailVideo?.src !==
+    '/project-videos/treadmill-workstation-ai-film.mp4' ||
+  treadmillWorkstationProject.detailVideo.type !== 'video/mp4' ||
+  treadmillWorkstationProject.detailVideo.poster !==
+    '/project-images/treadmill-workstation-ai-film.png' ||
+  treadmillWorkstationProject.translations?.en?.title !==
+    'Treadmill Workstation AI Promo Film' ||
+  treadmillWorkstationProject.translations.en.summary !==
+    'INLIDA Group - an electric height-adjustable desk for European and North American markets that integrates a standing desk and walking pad.' ||
+  treadmillWorkstationProject.translations.en.details !==
+    "Created for INLIDA Group's new product launch to highlight the product's use scenarios and core functions through an AIGC promotional film." ||
+  treadmillWorkstationProject.translations.en.role !== 'AI Promo Film' ||
+  treadmillWorkstationProject.translations.en.period !== 'Completed' ||
+  treadmillWorkstationProject.translations.en.imageAlt !==
+    'Integrated electric height-adjustable desk and walking pad in use' ||
+  treadmillWorkstationProject.translations.en.highlights?.join('|') !==
+    [
+      'Integrated desk and treadmill design.',
+      'Unified smart controls.',
+      'Foldable storage that saves space.'
+    ].join('|')
+) {
+  throw new Error('Treadmill workstation AI project media and translations must be complete');
 }
 
 if (

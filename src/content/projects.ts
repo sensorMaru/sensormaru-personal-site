@@ -268,8 +268,8 @@ export const projects: ProjectItem[] = [
   },
   {
     slug: 'pet-mobile-air-purifier-aigc-film',
-    title: '宠物移动净化器AIGC宣传片',
-    summary: '邦泽创科-宠物净化器AIGC宣传',
+    title: '宠物移动净化器AI宣传片',
+    summary: '邦泽创科-一款自动巡航&回仓的宠物空气净化器',
     details:
       '对接邦泽创科企业需求，为其新产品发布制作AIGC宣传片，突出产品使用场景和核心功能',
     role: 'AIGC 宣传片',
@@ -294,8 +294,9 @@ export const projects: ProjectItem[] = [
     ],
     translations: {
       en: {
-        title: 'Pet Mobile Air Purifier AIGC Promo Film',
-        summary: "An AIGC promotional film for BONSEN's pet air purifier.",
+        title: 'Pet Mobile Air Purifier AI Promo Film',
+        summary:
+          'BONSEN - a pet air purifier with autonomous patrol and return-to-dock functionality.',
         details:
           "Created for BONSEN's new product launch to present the pet air purifier's real-life use scenarios and core functions.",
         role: 'AIGC Promo Film',
@@ -306,6 +307,46 @@ export const projects: ProjectItem[] = [
           'Deep adsorption that reaches overlooked areas.',
           'Bottom and side intake for dual purification.',
           'Integrated fur collection for easy cleanup.'
+        ]
+      }
+    }
+  },
+  {
+    slug: 'treadmill-workstation-ai-film',
+    title: 'Treadmill Workstation AI宣传片',
+    summary:
+      '英莱达集团-一款面向欧美市场的电动升降桌产品，集成了电动升降桌与走步机的功能',
+    details:
+      '对接英莱达集团需求，为其新产品发布制作AIGC宣传片，突出产品使用场景和核心功能',
+    role: 'AI 宣传片',
+    period: '已完成',
+    cardBadge: 'AI',
+    cardEyebrow: 'AI PRODUCT FILM',
+    cardTag: 'TREADMILL DESK',
+    image: {
+      src: '/project-images/treadmill-workstation-ai-film.png',
+      alt: '电动升降桌与走步机一体化产品使用场景'
+    },
+    detailVideo: {
+      src: '/project-videos/treadmill-workstation-ai-film.mp4',
+      type: 'video/mp4',
+      poster: '/project-images/treadmill-workstation-ai-film.png'
+    },
+    highlights: ['桌跑一体设计', '一体化智能控制', '折叠收纳省空间'],
+    translations: {
+      en: {
+        title: 'Treadmill Workstation AI Promo Film',
+        summary:
+          'INLIDA Group - an electric height-adjustable desk for European and North American markets that integrates a standing desk and walking pad.',
+        details:
+          "Created for INLIDA Group's new product launch to highlight the product's use scenarios and core functions through an AIGC promotional film.",
+        role: 'AI Promo Film',
+        period: 'Completed',
+        imageAlt: 'Integrated electric height-adjustable desk and walking pad in use',
+        highlights: [
+          'Integrated desk and treadmill design.',
+          'Unified smart controls.',
+          'Foldable storage that saves space.'
         ]
       }
     }
