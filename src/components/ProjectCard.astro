@@ -20,7 +20,15 @@ const projectEn = project.translations?.en ?? {};
   <div class="project-card-inner">
     {project.image ? (
       <div class="project-card-media">
-        <img src={project.image.src} alt={project.image.alt} class="project-card-image" loading="lazy" decoding="async" />
+        <img
+          src={project.image.src}
+          alt={project.image.alt}
+          data-i18n-alt-zh={project.image.alt}
+          data-i18n-alt-en={projectEn.imageAlt ?? project.image.alt}
+          class="project-card-image"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
     ) : null}
 

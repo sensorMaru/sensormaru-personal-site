@@ -131,7 +131,21 @@ if (
     '/project-images/pet-mobile-air-purifier-aigc-film.png' ||
   petAirPurifierProject.translations?.en?.title !==
     'Pet Mobile Air Purifier AIGC Promo Film' ||
-  petAirPurifierProject.translations.en.highlights?.length !== 4
+  petAirPurifierProject.translations.en.summary !==
+    "An AIGC promotional film for BONSEN's pet air purifier." ||
+  petAirPurifierProject.translations.en.details !==
+    "Created for BONSEN's new product launch to present the pet air purifier's real-life use scenarios and core functions." ||
+  petAirPurifierProject.translations.en.role !== 'AIGC Promo Film' ||
+  petAirPurifierProject.translations.en.period !== 'Completed' ||
+  petAirPurifierProject.translations.en.imageAlt !==
+    'Pet mobile air purifier in a home setting' ||
+  petAirPurifierProject.translations.en.highlights?.join('|') !==
+    [
+      'Precision obstacle avoidance for smooth, gentle movement.',
+      'Deep adsorption that reaches overlooked areas.',
+      'Bottom and side intake for dual purification.',
+      'Integrated fur collection for easy cleanup.'
+    ].join('|')
 ) {
   throw new Error('Pet air purifier AIGC project media and translations must be complete');
 }
@@ -269,6 +283,15 @@ if (
   !indexSource.includes("url.removeAttribute('href')")
 ) {
   throw new Error('Project dialog must hide and clear its visit link when a URL is absent');
+}
+
+if (
+  !projectCardSource.includes('data-i18n-alt-zh={project.image.alt}') ||
+  !projectCardSource.includes('data-i18n-alt-en={projectEn.imageAlt ?? project.image.alt}') ||
+  !navSource.includes("document.querySelectorAll('[data-i18n-alt-zh]')") ||
+  !navSource.includes("node.setAttribute('alt', nextAlt)")
+) {
+  throw new Error('Project card image alt text must follow the active language');
 }
 
 if (!stylesSource.includes('.project-dialog-visit[hidden]')) {

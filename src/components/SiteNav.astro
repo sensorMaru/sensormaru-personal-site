@@ -66,6 +66,13 @@ const navItems = [
       }
     });
 
+    document.querySelectorAll('[data-i18n-alt-zh]').forEach((node) => {
+      const nextAlt = lang === 'en' ? node.dataset.i18nAltEn : node.dataset.i18nAltZh;
+      if (nextAlt) {
+        node.setAttribute('alt', nextAlt);
+      }
+    });
+
     localStorage.setItem('site-lang', lang);
     if (emit) {
       window.dispatchEvent(new CustomEvent('site-language-change', { detail: { lang } }));
