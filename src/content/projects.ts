@@ -5,7 +5,7 @@ export type ProjectItem = {
   details: string;
   role: string;
   period: string;
-  url: string;
+  url?: string;
   featured?: boolean;
   highlights: string[];
   cardBadge?: string;
@@ -262,6 +262,50 @@ export const projects: ProjectItem[] = [
           'Supports full-dataset filtering and search by province, city, status, and keyword.',
           'Provides weekly, monthly, and quarterly views of recent dispatches ordered by article publication time.',
           'Lets users save priority updates and review them in a centralized Favorites view.'
+        ]
+      }
+    }
+  },
+  {
+    slug: 'pet-mobile-air-purifier-aigc-film',
+    title: '宠物移动净化器AIGC宣传片',
+    summary: '邦泽创科-宠物净化器AIGC宣传',
+    details:
+      '对接邦泽创科企业需求，为其新产品发布制作AIGC宣传片，突出产品使用场景和核心功能',
+    role: 'AIGC 宣传片',
+    period: '已完成',
+    cardBadge: 'AI',
+    cardEyebrow: 'AIGC PRODUCT FILM',
+    cardTag: 'PET PURIFIER',
+    image: {
+      src: '/project-images/pet-mobile-air-purifier-aigc-film.png',
+      alt: '宠物移动净化器在家居场景中的产品画面'
+    },
+    detailVideo: {
+      src: '/project-videos/pet-mobile-air-purifier-aigc-film.mp4',
+      type: 'video/mp4',
+      poster: '/project-images/pet-mobile-air-purifier-aigc-film.png'
+    },
+    highlights: [
+      '精准避障，温柔穿行',
+      '深层吸附，不留死角',
+      '底吸侧吸，双重净化',
+      '集毛系统，轻松清理'
+    ],
+    translations: {
+      en: {
+        title: 'Pet Mobile Air Purifier AIGC Promo Film',
+        summary: "An AIGC promotional film for BONSEN's pet air purifier.",
+        details:
+          "Created for BONSEN's new product launch to present the pet air purifier's real-life use scenarios and core functions.",
+        role: 'AIGC Promo Film',
+        period: 'Completed',
+        imageAlt: 'Pet mobile air purifier in a home setting',
+        highlights: [
+          'Precision obstacle avoidance for smooth, gentle movement.',
+          'Deep adsorption that reaches overlooked areas.',
+          'Bottom and side intake for dual purification.',
+          'Integrated fur collection for easy cleanup.'
         ]
       }
     }

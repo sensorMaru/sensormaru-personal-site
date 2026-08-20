@@ -1,6 +1,6 @@
 ---
 const { project } = Astro.props;
-const isExternalProject = /^https?:\/\//.test(project.url);
+const isExternalProject = project.url ? /^https?:\/\//.test(project.url) : false;
 const projectEn = project.translations?.en ?? {};
 ---
 
@@ -34,17 +34,19 @@ const projectEn = project.translations?.en ?? {};
       <p class="project-summary" data-i18n-zh={project.summary} data-i18n-en={projectEn.summary ?? project.summary}>{project.summary}</p>
     </div>
   </div>
-  <a
-    class="project-card-visit"
-    href={project.url}
-    target={isExternalProject ? '_blank' : undefined}
-    rel={isExternalProject ? 'noreferrer' : undefined}
-    aria-label={`访问 ${project.title}`}
-    data-i18n-aria-zh={`访问 ${project.title}`}
-    data-i18n-aria-en={`Visit ${projectEn.title ?? project.title}`}
-    data-i18n-zh="访问项目"
-    data-i18n-en="Visit Project"
-  >
-    访问项目
-  </a>
+  {project.url ? (
+    <a
+      class="project-card-visit"
+      href={project.url}
+      target={isExternalProject ? '_blank' : undefined}
+      rel={isExternalProject ? 'noreferrer' : undefined}
+      aria-label={`访问 ${project.title}`}
+      data-i18n-aria-zh={`访问 ${project.title}`}
+      data-i18n-aria-en={`Visit ${projectEn.title ?? project.title}`}
+      data-i18n-zh="访问项目"
+      data-i18n-en="Visit Project"
+    >
+      访问项目
+    </a>
+  ) : null}
 </article>

@@ -501,7 +501,12 @@ import { sops } from '../content/sops';
       period.textContent = localizedValue(project, 'period');
       summary.textContent = localizedValue(project, 'summary');
       details.textContent = localizedValue(project, 'details');
-      url.href = project.url;
+      url.toggleAttribute('hidden', !project.url);
+      if (project.url) {
+        url.href = project.url;
+      } else {
+        url.removeAttribute('href');
+      }
 
       activeSlideIndex = 0;
       stopCarousel();

@@ -43,7 +43,8 @@ const requiredProjectSlugs = [
   'global-design-award-museum',
   'park-investment-intelligence',
   'wm-tracking-demo',
-  '360-screenshot'
+  '360-screenshot',
+  'pet-mobile-air-purifier-aigc-film'
 ];
 
 for (const slug of requiredProjectSlugs) {
@@ -69,7 +70,8 @@ const expectedProjectOrder = [
   'global-design-award-museum',
   'wm-tracking-demo',
   '360-screenshot',
-  'park-investment-intelligence'
+  'park-investment-intelligence',
+  'pet-mobile-air-purifier-aigc-film'
 ];
 
 if (projects.map((project) => project.slug).join('|') !== expectedProjectOrder.join('|')) {
@@ -101,6 +103,37 @@ if (
   parkInvestmentProject.translations.en.detailImageAlts?.length !== 3
 ) {
   throw new Error('Park investment intelligence project media and translations must be complete');
+}
+
+const petAirPurifierProject = projects.find(
+  (project) => project.slug === 'pet-mobile-air-purifier-aigc-film'
+);
+
+if (
+  petAirPurifierProject?.title !== '宠物移动净化器AIGC宣传片' ||
+  petAirPurifierProject.summary !== '邦泽创科-宠物净化器AIGC宣传' ||
+  petAirPurifierProject.details !==
+    '对接邦泽创科企业需求，为其新产品发布制作AIGC宣传片，突出产品使用场景和核心功能' ||
+  petAirPurifierProject.url !== undefined ||
+  petAirPurifierProject.highlights.join('|') !==
+    ['精准避障，温柔穿行', '深层吸附，不留死角', '底吸侧吸，双重净化', '集毛系统，轻松清理'].join('|')
+) {
+  throw new Error('Pet air purifier AIGC project content must match the requested copy');
+}
+
+if (
+  petAirPurifierProject.image?.src !==
+    '/project-images/pet-mobile-air-purifier-aigc-film.png' ||
+  petAirPurifierProject.detailVideo?.src !==
+    '/project-videos/pet-mobile-air-purifier-aigc-film.mp4' ||
+  petAirPurifierProject.detailVideo.type !== 'video/mp4' ||
+  petAirPurifierProject.detailVideo.poster !==
+    '/project-images/pet-mobile-air-purifier-aigc-film.png' ||
+  petAirPurifierProject.translations?.en?.title !==
+    'Pet Mobile Air Purifier AIGC Promo Film' ||
+  petAirPurifierProject.translations.en.highlights?.length !== 4
+) {
+  throw new Error('Pet air purifier AIGC project media and translations must be complete');
 }
 
 if (
@@ -222,6 +255,20 @@ if (indexSource.includes('左侧教育，右侧实习')) {
 
 if (!projectCardSource.includes('访问项目')) {
   throw new Error('Project cards must expose a visit-project link');
+}
+
+if (
+  !projectCardSource.includes('{project.url ? (') ||
+  !projectCardSource.includes('class="project-card-visit"')
+) {
+  throw new Error('Project cards must render visit links only when a URL exists');
+}
+
+if (
+  !indexSource.includes("url.toggleAttribute('hidden', !project.url)") ||
+  !indexSource.includes("url.removeAttribute('href')")
+) {
+  throw new Error('Project dialog must hide and clear its visit link when a URL is absent');
 }
 
 for (const requiredSopText of [
