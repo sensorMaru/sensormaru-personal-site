@@ -271,6 +271,10 @@ if (
   throw new Error('Project dialog must hide and clear its visit link when a URL is absent');
 }
 
+if (!stylesSource.includes('.project-dialog-visit[hidden]')) {
+  throw new Error('Hidden project dialog visit links must remain visually hidden');
+}
+
 for (const requiredSopText of [
   'App Store评论采集与分析Skills',
   '批量获取多个指定的竞品 App',
